@@ -1,5 +1,9 @@
 /* Binary Heap
  * Copyright 2015 330k
+ * https://github.com/330k/
+ *
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
  */
 function binary_heap(){
 	var _data = [];
