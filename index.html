@@ -107,9 +107,15 @@ onmessage = function(e) {
 		postMessage(timingQueuePerformance(self[e.data.target[i]], data));
 	}
 };
-importScripts('binary_heap.js','d_ary_heap.js','fibonacci.js','leftist_heap.js','pairing_heap.js','skew_heap.js');
-importScripts('http://oretoku.net/apps/mt.js');
 var mt = new MersenneTwister(0x9876543210);
+
+importScripts('//330k.github.io/priorityqueue_js/binary_heap.js');
+importScripts('//330k.github.io/priorityqueue_js/d_ary_heap.js');
+importScripts('//330k.github.io/priorityqueue_js/fibonacci.js');
+importScripts('//330k.github.io/priorityqueue_js/leftist_heap.js');
+importScripts('//330k.github.io/priorityqueue_js/pairing_heap.js');
+importScripts('//330k.github.io/priorityqueue_js/skew_heap.js');
+importScripts('http://oretoku.net/apps/mt.js');
 </script>
 
 
