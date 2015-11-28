@@ -1,6 +1,9 @@
 /* Fibonacci Heap
  * Copyright 2015 330k
  * https://github.com/330k/
+ *
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
  */
 function fibonacci_heap(){
 	var _top = null;
