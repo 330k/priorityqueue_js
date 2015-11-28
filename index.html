@@ -26,13 +26,6 @@ td	{ text-align: right; }
 <script id="worker" type="text/plain">
 'use strict';
 
-//importScripts('binary_heap.js');
-importScripts('d_ary_heap.js');
-importScripts('fibonacci.js');
-importScripts('leftist_heap.js');
-importScripts('pairing_heap.js');
-importScripts('skew_heap.js');
-
 function timingQueuePerformance(queue, data){
 	var sorted = [];
 	var time = [];
@@ -119,11 +112,18 @@ var mt = new MersenneTwister(0x9876543210);
 
 </script>
 
-
 <script type="text/javascript">
 var worker = null;
 var result = {};
 var cols = {};
+
+var xhr = new XMLHttpRequest();
+var js = ['binary_heap.js','d_ary_heap.js','fibonacci.js','leftist_heap.js','pairing_heap.js','skew_heap.js'];
+for(var i = 0; i < js.length; i++){
+	xhr.open('GET', '//330k.github.io/priorityqueue_js/binary_heap.js', false);
+	xhr.send();
+	console.log(xhr.responseText);
+};
 
 function startBenchmark(){
 	if(worker){
