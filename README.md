@@ -22,3 +22,7 @@ JavaScript Priority Queue (Heap) Implementation
     console.log(queue.dequeue());
     </script>
   
+## Benchmark
+visit http://330k.github.io/priorityqueue_js/
+
+binary heap, d-ary heap and pairing heap scores good performance stably.
