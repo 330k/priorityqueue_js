@@ -17,9 +17,13 @@ JavaScript Priority Queue (Heap) Implementation
 ### Example: Binary Heap
     <script type="text/javascript" src="//priorityqueue_js.github.io/binary_heap.js"></script>
     <script type="text/javascript">
-    var queue = binary_heap();
-    queue.enqueue({data:"data"}, 1);
-    console.log(queue.dequeue());
+      var queue = binary_heap();
+      queue.enqueue("data1", 3);
+      queue.enqueue("data2", 1);
+      queue.enqueue("data3", 2);
+      console.log(queue.dequeue());
+      console.log(queue.dequeue());
+      console.log(queue.dequeue());
     </script>
   
 ## Benchmark
