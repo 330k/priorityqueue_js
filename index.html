@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+<!--
+    Copyright (c) 2015 Kei Misawa
+
+    This software is released under the MIT License.
+
+    http://opensource.org/licenses/mit-license.php
+-->
+<head>
+<meta charset="utf-8"/>
+<title>Priority Queue Test 3</title>
+<style>
+table	{ border-collapse: collapse; }
+th,td	{ border: 1px solid black; }
+td	{ text-align: right; }
+</style>
+</head>
+<body>
+<button onclick="startBenchmark()">Start Benchmark</button>
+<button onclick="stopBenchmark()">Stop Benchmark</button>
+<div id="result"></div>
+<script id="worker" type="text/plain">
+'use strict';
+// Array sortでソート
+function PriorityQueue1(){
+	var _data = [];
+	var _sorted = false;
+	var enqueue = function(priority, value){
+		_data.push({p: priority, v: value});
+		_sorted = false;
+	};
+	var dequeue = function(){
+		if(!_sorted){
+			_data.sort(function(a,b){
+				return a.p - b.p;
+			});
+			_sorted = true;
+		}
+		return _data.pop().v;
+	};
+	var size = function(){
+		return _data.length;
+	};
+	
+	return {
+		name: 'Array.sort()',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// dequeue時選択
+function PriorityQueue2(){
+	var _data = [];
+	var _size = 0;
+	var enqueue = function(priority, value){
+		_data.push({p: priority, v: value});
+		_size++;
+	};
+	var dequeue = function(){
+		var data = _data;
+		var r = data[0];
+		var c = 0;
+		for(var i = 1; i < _size; i++){
+			if(data[i].p > r.p){
+				r = data[i];
+				c = i;
+			}
+		}
+		data.splice(c, 1);
+		_size--;
+		
+		return r.v;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Selection',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// enqueue時単純挿入
+function PriorityQueue3(){
+	var _data = [];
+	var _size = 0;
+	var enqueue = function(priority, value){
+		var data = _data;
+		for(var i = 0; i < _size; i++){
+			if(data[i].p > priority){
+				data.splice(i, 0, {p: priority, v: value});
+				_size++;
+				return;
+			}
+		}
+		data.push({p: priority, v: value});
+		_size++;
+	};
+	var dequeue = function(){
+		_size--;
+		return _data.pop().v;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Insertion',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// enqueue時二分探索挿入
+function PriorityQueue4(){
+	var _data = [];
+	var _size = 0;
+	var enqueue = function(priority, value){
+		var data = _data;
+		if(_size){
+			var min = 0;
+			var max = _size - 1;
+			var i = ~~(0.5 * max);//Math.floor(max / 2);
+			if(priority < data[min].p){
+				data.unshift({p: priority, v: value});
+				_size++;
+				return;
+			}
+			if(data[max].p < priority){
+				data.push({p: priority, v: value});
+				_size++;
+				return;
+			}
+			while(max - min >= 2){
+				if(data[i].p > priority){
+					max = i;
+				}else{
+					min = i;
+				}
+				i = ~~(0.5 * (min + max));//Math.floor((min + max) / 2);
+			}
+			data.splice(max, 0, {p: priority, v: value});
+			_size++;
+		}else{
+			data.push({p: priority, v: value});
+			_size++;
+		}
+	};
+	var dequeue = function(){
+		_size--;
+		return _data.pop().v;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Binary Insertion',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// 二分ヒープ
+function PriorityQueue5(){
+	var _data = [];
+	var _size = 0;
+	var enqueue = function(priority, value){
+		var data = _data;
+		
+		if(_size){
+			data.push({p: priority, v: value});
+			_size++;
+			var i = _size - 1;
+			var p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
+			while(p >= 0){
+				if(data[p].p < data[i].p){
+					var ret = data[i];
+					data[i] = data[p];
+					data[p] = ret;
+				
+					i = p;
+					p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);
+				}else{
+					break;
+				}
+			}
+		}else{
+			data.push({p: priority, v: value});
+			_size++;
+		}
+	};
+	var dequeue = function(){
+		var data = _data;
+		var size = _size;
+		var result = data[0];
+		
+		data[0] = data[size - 1];
+		data.pop();
+		size--;
+		
+		var i = 0;
+		var c1 = 1;	// left child
+		var c2 = 2;	// right child
+		
+		while(c1 < size){
+			if(c2 < size){
+				var p0 = data[i].p;
+				var p1 = data[c1].p;
+				var p2 = data[c2].p;
+			
+				if((p1 < p2) && (p0 < p2)){
+					var ret = data[i];
+					data[i] = data[c2];
+					data[c2] = ret;
+					i = c2;
+				}else if(p0 < p1){
+					var ret = data[i];
+					data[i] = data[c1];
+					data[c1] = ret;
+					i = c1;
+				}else{
+					break;
+				}
+				c1 = i * 2 + 1;
+				c2 = i * 2 + 2;
+			}else{
+				var p0 = data[i].p;
+				var p1 = data[c1].p;
+				
+				if(p0 < p1){
+					var ret = data[i];
+					data[i] = data[c1];
+					data[c1] = ret;
+				}
+				break;
+			}
+		}
+		
+		_size = size;
+		return result.v;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Binary Heap',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// Pairingヒープ
+function PriorityQueue6(){
+	var _root = null;
+	var _size = 0;
+	var _merge = function (i, j){
+		if(i === null) return j;
+		if(j === null) return i;
+		
+		if(i.p < j.p){
+			var ret = i;
+			i = j;
+			j = ret;
+		}
+		j.next = i.head;
+		i.head = j;
+		
+		return i;
+	};
+	var _mergeList = function (s){
+		var n = null;
+		
+		while(s !== null){
+			var a = s;
+			var b = null;
+			s = s.next;
+			a.next = null;
+			if(s !== null){
+				b = s;
+				s = s.next;
+				b.next = null;
+			}
+			a = _merge(a, b);
+			a.next = n;
+			n = a;
+		}
+		while(n !== null){
+			var j = n;
+			n = n.next;
+			s = _merge(j, s);
+		}
+		return s;
+	};
+	
+	var enqueue = function(priority, value){
+		_root = _merge(_root, {
+			p: priority,
+			v: value,
+			next: null,
+			head: null
+		});
+		_size++;
+	};
+	var dequeue = function(){
+		var result = _root.v;
+		_root = _mergeList(_root.head);
+		_size--;
+		
+		return result;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Pairing Heap',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// d-ary ヒープ
+function PriorityQueue7_3(){
+	return PriorityQueue7(3);
+}
+function PriorityQueue7_4(){
+	return PriorityQueue7(4);
+}
+function PriorityQueue7_5(){
+	return PriorityQueue7(5);
+}
+function PriorityQueue7_8(){
+	return PriorityQueue7(8);
+}
+function PriorityQueue7(d){
+	var _d = d || 4;
+	var _data = [];
+	var _size = 0;
+	var enqueue = function(priority, value){
+		var data = _data;
+		var dinv = 1 / _d;
+		
+		if(_size){
+			data.push({p: priority, v: value});
+			_size++;
+			var i = _size - 1;
+			var p = ~~((i - 1) * dinv);//Math.floor((i - 1) * dinv);	// parent
+			while(p >= 0){
+				if(data[p].p < data[i].p){
+					var ret = data[i];
+					data[i] = data[p];
+					data[p] = ret;
+				
+					i = p;
+					p = ~~((i - 1) * dinv);//Math.floor((i - 1) * dinv);
+				}else{
+					break;
+				}
+			}
+		}else{
+			data.push({p: priority, v: value});
+			_size++;
+		}
+	};
+	var dequeue = function(){
+		var data = _data;
+		var size = _size;
+		var d = _d;
+		var result = data[0].v;
+		
+		data[0] = data[size - 1];
+		data.pop();
+		size--;
+		
+		var i = 0;
+		var c = 1;	// first child
+		
+		while(c < size){
+			var p0 = data[i].p;
+			var pmax = data[c].p;
+			var cmax = c;
+			
+			//var jmax = Math.min(c + d, size);
+			var jmax = c + d;
+			if(jmax > size){
+				jmax = size;
+			}
+			for(var j = c + 1; j < jmax; j++){
+				var pret = data[j].p;
+				if(pmax < pret){
+					pmax = pret;
+					cmax = j;
+				}
+			}
+			if(p0 < pmax){
+				var ret = data[i];
+				data[i] = data[cmax];
+				data[cmax] = ret;
+			}else{
+				break;
+			}
+			i = cmax;
+			c = i * d + 1;
+		}
+		
+		_size = size;
+		return result;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'd-ary Heap (d=' + d + ')',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// Skew ヒープ
+function PriorityQueue8(){
+	var _root = null;
+	var _size = 0;
+	
+	var _merge = function(i, j){
+		if(i === null) return j;
+		if(j === null) return i;
+		
+		if(i.p < j.p){
+			var ret = i;
+			i = j;
+			j = ret;
+		}
+		i.right = _merge(i.right, j);
+		ret = i.right;
+		i.right = i.left;
+		i.left = ret;
+		
+		return i;
+	};
+	
+	var enqueue = function(priority, value){
+		_root = _merge(_root, {
+			p: priority,
+			v: value,
+			left: null,
+			right: null
+		});
+		_size++;
+	};
+	var dequeue = function(){
+		var result = _root.v;
+		
+		_root = _merge(_root.left, _root.right);
+		_size--;
+		
+		return result;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Skew Heap',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+// Leftist ヒープ
+function PriorityQueue9(){
+	var _root = null;
+	var _size = 0;
+	var _merge = function(i, j){
+		if(i === null) return j;
+		if(j === null) return i;
+		
+		if(i.p < j.p){
+			var ret = i;
+			i = j;
+			j = ret;
+		}
+		i.right = _merge(i.right, j);
+		if((i.left === null) || (i.left.s < i.right.s)){
+			ret = i.right;
+			i.right = i.left;
+			i.left = ret;
+		}
+		i.s = ((i.right === null) ? 0 : i.right.s) + 1;
+		
+		return i;
+	};
+	
+	var enqueue = function(priority, value){
+		_root = _merge(_root, {
+			p: priority,
+			v: value,
+			left: null,
+			right: null,
+			s: 1
+		});
+		_size++;
+	};
+	var dequeue = function(){
+		var result = _root.v;
+		
+		_root = _merge(_root.left, _root.right);
+		_size--;
+		
+		return result;
+	};
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Leftist Heap',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+
+// フィボナッチヒープ
+function PriorityQueue10(){
+	var _top = null;
+	var _size = 0;
+	var _mergeList = function(i, j){
+		if(i === null) return j;
+		if(j === null) return i;
+		
+		var iNext = i.next;
+		i.next = j.next;
+		i.next.prev = i;
+		j.next = iNext;
+		j.next.prev = j;
+
+		return i.p > j.p ? i : j;
+	};
+	
+	var enqueue = function(priority, value){
+		var newnode = {
+			p: priority,
+			v: value,
+			marked: false,
+			rank: 0,
+			next: null,
+			prev: null,
+			firstchild: null
+		};
+		newnode.next = newnode;
+		newnode.prev = newnode;
+		
+		_top = _mergeList(_top, newnode);
+		_size++;
+	};
+	var dequeue = function(){
+		var result = _top;
+		_size--;
+		
+		if(_top.next === _top){
+			_top = null;
+		}else{
+			_top.prev.next = _top.next;
+			_top.next.prev = _top.prev;
+			_top = _top.next;
+		}
+		
+		_top = _mergeList(_top, result.firstchild);
+		
+		if(_top === null){
+			return result.v;
+		}
+		
+		var ranks = [];
+		var roots = [];
+
+		var curr = _top;
+		do{
+			roots.push(curr);
+			curr = curr.next;
+		} while(curr !== _top);
+		
+		for(var i = 0; i < roots.length; i++){
+			curr = roots[i];
+			while(true){
+				if(ranks[curr.rank] === undefined){
+					ranks[curr.rank] = curr;
+					break;
+				}
+				var other = ranks[curr.rank];
+				ranks[curr.rank] = undefined;
+				
+				var min, max;
+				if(curr.p < other.p){
+					min = curr;
+					max = other;
+				}else{
+					min = other;
+					max = curr;
+				}
+				
+				min.next.prev = min.prev;
+				min.prev.next = min.next;
+				
+				min.next = min.prev = min;
+				max.firstchild = _mergeList(max.firstchild, min);
+				
+				min.marked = false;
+				max.rank++;
+				
+				curr = max;
+			}
+			if(curr.p > _top.p){
+				_top = curr;
+			}
+		}
+		
+		return result.v;
+        };
+	var size = function(){
+		return _size;
+	};
+	
+	return {
+		name: 'Fibonacci Heap',
+		enqueue: enqueue,
+		dequeue: dequeue,
+		size: size
+	};
+}
+
+
+function timingQueuePerformance(queue, data){
+	var sorted = [];
+	var time = [];
+	var n = data.length;
+
+	// 連続追加、削除のテスト
+	time.push((new Date()).getTime());
+	var q = new queue();
+	for(var i = 0; i < n; i++){
+		q.enqueue(data[i].p, data[i].v);
+	}
+	time.push((new Date()).getTime());
+	while(q.size() > 0){
+		sorted.push(q.dequeue());
+	}
+	time.push((new Date()).getTime());
+	
+	// Douglas-Peuckerを想定したテスト(2個追加して1個削除の繰り返し)
+	for(var i = 0; i < n; i += 2){
+		q.enqueue(data[i].p, data[i].v);
+		q.enqueue(data[i + 1].p, data[i + 1].v);
+		sorted.push(q.dequeue());
+	}
+	while(q.size() > 0){
+		sorted.push(q.dequeue());
+	}
+	time.push((new Date()).getTime());
+	
+	console.log(crc32(sorted).toString(16));	// 結果の確認
+	
+	var queuename = q.name;
+	q = null;
+	
+	return {
+		n: n,
+		name: queuename,
+		sequential_enqueue: time[1] - time[0],
+		sequential_dequeue: time[2] - time[1],
+		sequential_total: time[2] - time[0],
+		pseudodp: time[3] - time[2]
+	};
+}
+
+var crc32 = (function(){
+	var poly = 0xEDB88320;  
+	var table = [];
+	//create table
+	for(var i = 0; i < 256; i++) {  
+		var u = i;  
+		for(var j = 0; j < 8; j++) {  
+			if(u & 0x1) u = (u >>> 1) ^ poly;  
+			else        u >>>= 1;  
+		}  
+		table.push(u>>>0);
+	}
+
+	return (function(array){
+		var result = 0xFFFFFFFF;
+		var l = array.length;
+
+		//calculate
+		for(var i = 0; i < l; i++)
+			result = ((result >>> 8) ^ table[(array[i] & 0xFF) ^ (result & 0xFF)])>>>0;
+		return (~result)>>>0;
+	});
+})();
+
+onmessage = function(e) {
+	// ダミーデータ生成
+	var i = 0;
+	var data = [];
+	
+	for(i = 0; i < e.data.n; i++){
+		data.push({p: mt.next(), v: i});
+	}
+	
+	// 測定
+	for(i = 0; i < e.data.target.length; i++){
+		postMessage(timingQueuePerformance(self[e.data.target[i]], data));
+	}
+};
+importScripts('http://oretoku.net/apps/mt.js');
+//var mt = new MersenneTwister(0x1234567890);
+var mt = new MersenneTwister(0x9876543210);
+
+</script>
+<script type="text/javascript">
+var worker = null;
+var result = {};
+var cols = {};
+
+function startBenchmark(){
+	if(worker){
+		stopBenchmark();
+	}
+	var bb = new Blob([document.getElementById('worker').text], {type:'text/javascript'});
+	worker = new Worker(window.URL.createObjectURL(bb));
+	result = {};
+	cols = {};
+	
+	worker.onmessage = function(e){
+		var data = e.data;
+		
+		if(typeof result[data.n] === 'undefined'){
+			result[data.n] = {};
+		}
+		result[data.n][data.name] = data;
+		cols[data.name] = null;
+	
+		var buf = [];
+		buf.push('<table>');
+		buf.push('<tr>');
+		buf.push('<tr><th></th>');
+		var count = 0;
+		for(var name in cols){
+			count++;
+		}
+		buf.push('<th colspan="' + count + '">Sequential</th>');
+		buf.push('<th colspan="' + count + '">Douglas-Peucker</th>');
+		buf.push('</tr>');
+		buf.push('<tr><th>n</th>');
+		for(var name in cols){
+			buf.push('<th>' + name + '</th>');
+		}
+		for(var name in cols){
+			buf.push('<th>' + name + '</th>');
+		}
+		buf.push('</tr>');
+		for(var n in result){
+			buf.push('<tr>');
+			buf.push('<td>' + n + '</td>');
+			for(var name in cols){
+				try{
+					buf.push('<td>' + result[n][name].sequential_total + '</td>');
+				}catch(e){
+					buf.push('<td></td>');
+				}
+			}
+			for(var name in cols){
+				try{
+					buf.push('<td>' + result[n][name].pseudodp + '</td>');
+				}catch(e){
+					buf.push('<td></td>');
+				}
+			}
+			buf.push('</tr>');
+		}
+		buf.push('</table>');
+	
+		document.getElementById('result').innerHTML = buf.join('');
+	};
+	
+	
+	/*worker.postMessage({n:   1000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:   2000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:   5000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:  10000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:  20000,target:['PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:  50000,target:['PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 100000,target:['PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 200000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 500000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n:1000000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	*/
+	worker.postMessage({n: 500000,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 500002,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 500004,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+}
+function stopBenchmark(){
+	if(worker){
+		worker.terminate();
+		worker = (void 0);
+	}
+}
+
+</script>
+</body>
+</html>
