@@ -9,7 +9,12 @@ JavaScript Priority Queue (Heap) Implementation
 * skew_heap
 
 ## Usage
-### Binary Heap
+1. Load .js (e.g. binary_heap.js, pairing_heap.js)
+2. create priority queue object by calling function (e.g. `binary_heap()`, `pairing_heap()`)
+3. call `enqueue` function to add data with priority: 1st argument is data, 2nd argument is priority.
+4. call `dequeue` function to retrieve data with largest priority.
+
+### Example: Binary Heap
     <script type="text/javascript" src="//priorityqueue_js.github.io/binary_heap.js"></script>
     <script type="text/javascript">
     var queue = binary_heap();
