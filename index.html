@@ -20,7 +20,7 @@ td	{ text-align: right; }
 <button onclick="startBenchmark()">Start Benchmark</button>
 <button onclick="stopBenchmark()">Stop Benchmark</button>
 <div id="result"></div>
-<script id="worker" type="text/plain">
+<script id="worker" type="text/plain"><![CDATA[
 'use strict';
 // Array sortでソート
 function PriorityQueue1(){
@@ -731,8 +731,8 @@ importScripts('http://oretoku.net/apps/mt.js');
 //var mt = new MersenneTwister(0x1234567890);
 var mt = new MersenneTwister(0x9876543210);
 
-</script>
-<script type="text/javascript">
+]]</script>
+<script type="text/javascript"><![CDATA[
 var worker = null;
 var result = {};
 var cols = {};
@@ -821,6 +821,6 @@ function stopBenchmark(){
 	}
 }
 
-</script>
+]]</script>
 </body>
 </html>
