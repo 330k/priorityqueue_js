@@ -38,7 +38,6 @@ function d_ary_heap(d){
 	var dequeue = function(){
 		var data = _data;
 		var size = _size;
-		var d = _d;
 		var result = data[0].v;
 		
 		data[0] = data[size - 1];
@@ -53,7 +52,7 @@ function d_ary_heap(d){
 			var pmax = data[c].p;
 			var cmax = c;
 			
-			var jmax = c + d;
+			var jmax = c + _d;
 			if(jmax > size){
 				jmax = size;
 			}
@@ -72,7 +71,7 @@ function d_ary_heap(d){
 				break;
 			}
 			i = cmax;
-			c = i * d + 1;
+			c = i * _d + 1;
 		}
 		
 		_size = size;
@@ -83,7 +82,7 @@ function d_ary_heap(d){
 	};
 	
 	return {
-		name: 'd-ary Heap (d=' + d + ')',
+		name: 'd-ary Heap (d=' + _d + ')',
 		enqueue: enqueue,
 		dequeue: dequeue,
 		size: size
