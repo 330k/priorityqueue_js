@@ -23,153 +23,6 @@ td	{ text-align: right; }
 <div id="result"></div>
 <script id="worker" type="text/plain">
 'use strict';
-// Array sortでソート
-function PriorityQueue1(){
-	var _data = [];
-	var _sorted = false;
-	var enqueue = function(priority, value){
-		_data.push({p: priority, v: value});
-		_sorted = false;
-	};
-	var dequeue = function(){
-		if(!_sorted){
-			_data.sort(function(a,b){
-				return a.p - b.p;
-			});
-			_sorted = true;
-		}
-		return _data.pop().v;
-	};
-	var size = function(){
-		return _data.length;
-	};
-	
-	return {
-		name: 'Array.sort()',
-		enqueue: enqueue,
-		dequeue: dequeue,
-		size: size
-	};
-}
-
-// dequeue時選択
-function PriorityQueue2(){
-	var _data = [];
-	var _size = 0;
-	var enqueue = function(priority, value){
-		_data.push({p: priority, v: value});
-		_size++;
-	};
-	var dequeue = function(){
-		var data = _data;
-		var r = data[0];
-		var c = 0;
-		for(var i = 1; i < _size; i++){
-			if(data[i].p > r.p){
-				r = data[i];
-				c = i;
-			}
-		}
-		data.splice(c, 1);
-		_size--;
-		
-		return r.v;
-	};
-	var size = function(){
-		return _size;
-	};
-	
-	return {
-		name: 'Selection',
-		enqueue: enqueue,
-		dequeue: dequeue,
-		size: size
-	};
-}
-
-// enqueue時単純挿入
-function PriorityQueue3(){
-	var _data = [];
-	var _size = 0;
-	var enqueue = function(priority, value){
-		var data = _data;
-		for(var i = 0; i < _size; i++){
-			if(data[i].p > priority){
-				data.splice(i, 0, {p: priority, v: value});
-				_size++;
-				return;
-			}
-		}
-		data.push({p: priority, v: value});
-		_size++;
-	};
-	var dequeue = function(){
-		_size--;
-		return _data.pop().v;
-	};
-	var size = function(){
-		return _size;
-	};
-	
-	return {
-		name: 'Insertion',
-		enqueue: enqueue,
-		dequeue: dequeue,
-		size: size
-	};
-}
-
-// enqueue時二分探索挿入
-function PriorityQueue4(){
-	var _data = [];
-	var _size = 0;
-	var enqueue = function(priority, value){
-		var data = _data;
-		if(_size){
-			var min = 0;
-			var max = _size - 1;
-			var i = ~~(0.5 * max);//Math.floor(max / 2);
-			if(priority < data[min].p){
-				data.unshift({p: priority, v: value});
-				_size++;
-				return;
-			}
-			if(data[max].p < priority){
-				data.push({p: priority, v: value});
-				_size++;
-				return;
-			}
-			while(max - min >= 2){
-				if(data[i].p > priority){
-					max = i;
-				}else{
-					min = i;
-				}
-				i = ~~(0.5 * (min + max));//Math.floor((min + max) / 2);
-			}
-			data.splice(max, 0, {p: priority, v: value});
-			_size++;
-		}else{
-			data.push({p: priority, v: value});
-			_size++;
-		}
-	};
-	var dequeue = function(){
-		_size--;
-		return _data.pop().v;
-	};
-	var size = function(){
-		return _size;
-	};
-	
-	return {
-		name: 'Binary Insertion',
-		enqueue: enqueue,
-		dequeue: dequeue,
-		size: size
-	};
-}
-
 // 二分ヒープ
 function PriorityQueue5(){
 	var _data = [];
@@ -729,10 +582,10 @@ onmessage = function(e) {
 	}
 };
 importScripts('http://oretoku.net/apps/mt.js');
-//var mt = new MersenneTwister(0x1234567890);
 var mt = new MersenneTwister(0x9876543210);
-
 </script>
+
+
 <script type="text/javascript">
 var worker = null;
 var result = {};
@@ -764,8 +617,8 @@ function startBenchmark(){
 		for(var name in cols){
 			count++;
 		}
-		buf.push('<th colspan="' + count + '">Sequential</th>');
-		buf.push('<th colspan="' + count + '">Douglas-Peucker</th>');
+		buf.push('<th colspan="' + count + '">Sequential (Sort)</th>');
+		buf.push('<th colspan="' + count + '">2-enqueue 1-dequeue</th>');
 		buf.push('</tr>');
 		buf.push('<tr><th>n</th>');
 		for(var name in cols){
@@ -799,21 +652,11 @@ function startBenchmark(){
 		document.getElementById('result').innerHTML = buf.join('');
 	};
 	
-	
-	/*worker.postMessage({n:   1000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:   2000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:   5000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:  10000,target:['PriorityQueue1','PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:  20000,target:['PriorityQueue2','PriorityQueue3','PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:  50000,target:['PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n: 100000,target:['PriorityQueue4','PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n: 200000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n: 500000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	worker.postMessage({n:1000000,target:['PriorityQueue5','PriorityQueue6','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
-	*/
 	worker.postMessage({n: 500000,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
 	worker.postMessage({n: 500002,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
 	worker.postMessage({n: 500004,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 500006,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
+	worker.postMessage({n: 500008,target:['PriorityQueue6','PriorityQueue5','PriorityQueue7_3','PriorityQueue7_4','PriorityQueue8','PriorityQueue9','PriorityQueue10']});
 }
 function stopBenchmark(){
 	if(worker){
