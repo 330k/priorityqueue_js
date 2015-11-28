@@ -122,7 +122,8 @@ var js = ['binary_heap.js','d_ary_heap.js','fibonacci.js','leftist_heap.js','pai
 for(var i = 0; i < js.length; i++){
 	xhr.open('GET', '//330k.github.io/priorityqueue_js/binary_heap.js', false);
 	xhr.send();
-	console.log(xhr.responseText);
+	var e = document.createTextNode(xhr.responseText);
+	document.getElementById('worker').appendChild(e);
 };
 
 function startBenchmark(){
