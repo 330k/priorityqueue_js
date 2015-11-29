@@ -1,12 +1,12 @@
 # priorityqueue_js
 JavaScript Priority Queue (Heap) Implementation
 
-* binary_heap
-* d_ary_heap
-* fibonacci_heap
-* leftist_heap
-* pairing_heap
-* skew_heap
+* binary_heap: http://330k.github.io/priorityqueue_js/binary_heap.js
+* d_ary_heap: http://330k.github.io/priorityqueue_js/d_ary_heap.js
+* fibonacci_heap: http://330k.github.io/priorityqueue_js/fibonacci_heap.js
+* leftist_heap: http://330k.github.io/priorityqueue_js/leftist_heap.js
+* pairing_heap: http://330k.github.io/priorityqueue_js/pairing_heap.js
+* skew_heap: http://330k.github.io/priorityqueue_js/skew_heap.js
 
 # Usage
 1. Load .js (e.g. binary_heap.js, pairing_heap.js)
