@@ -27,6 +27,6 @@ Simple JavaScript Priority Queue (Heap) Implementation
     </script>
   
 # Benchmark
-visit http://330k.github.io/priorityqueue_js/benchmark.js
+visit http://330k.github.io/priorityqueue_js/benchmark.html
 
 binary heap, d-ary heap and pairing heap scores good performance stably.
