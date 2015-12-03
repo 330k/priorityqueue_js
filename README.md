@@ -1,5 +1,5 @@
 # priorityqueue_js
-JavaScript Priority Queue (Heap) Implementation
+Simple JavaScript Priority Queue (Heap) Implementation
 
 * binary_heap: http://330k.github.io/priorityqueue_js/binary_heap.js
 * d_ary_heap: http://330k.github.io/priorityqueue_js/d_ary_heap.js
@@ -11,8 +11,8 @@ JavaScript Priority Queue (Heap) Implementation
 # Usage
 1. Load .js (e.g. binary_heap.js, pairing_heap.js)
 2. create priority queue object by calling function (e.g. `binary_heap()`, `pairing_heap()`)
-3. call `enqueue` function to add data with priority: 1st argument is priority, 2nd argument can be any JS object.
-4. call `dequeue` function to retrieve data with largest priority.
+3. call `enqueue` method to add data with priority: 1st argument is priority, 2nd argument can be any JS object.
+4. call `dequeue` method to retrieve data with largest priority.
 
 # Example: Binary Heap
     <script type="text/javascript" src="//330k.github.io/priorityqueue_js/binary_heap.js"></script>
