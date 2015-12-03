@@ -1,215 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<!--
-    Copyright (c) 2015 Kei Misawa
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Priorityqueue js by 330k</title>
 
-    This software is released under the MIT License.
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    http://opensource.org/licenses/mit-license.php
--->
-<head>
-<meta charset="utf-8"/>
-<title>Priority Queue JavaScript Implementation Benchmark</title>
-<style>
-table	{ border-collapse: collapse; }
-th,td	{ border: 1px solid black; }
-td	{ text-align: right; }
-</style>
-</head>
-<body>
-<h1>Priority Queue JavaScript Implementation Benchmark</h1>
-<button onclick="startBenchmark()">Start Benchmark</button>
-<button onclick="stopBenchmark()">Stop Benchmark</button>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Priorityqueue js</h1>
+        <p>JavaScript Priority Queue (Heap) Implementation</p>
+        <p class="view"><a href="https://github.com/330k/priorityqueue_js">View the Project on GitHub <small>330k/priorityqueue_js</small></a></p>
+        <ul>
+          <li><a href="https://github.com/330k/priorityqueue_js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/330k/priorityqueue_js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/330k/priorityqueue_js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="priorityqueue_js" class="anchor" href="#priorityqueue_js" aria-hidden="true"><span class="octicon octicon-link"></span></a>priorityqueue_js</h1>
 
-<span>(unit: millisecond)</span>
-<div id="result"></div>
-<script id="worker" type="text/plain">
-'use strict';
+<p>Simple JavaScript Priority Queue (Heap) Implementation</p>
 
-function timingQueuePerformance(queue, data){
-	var sorted = [];
-	var time = [];
-	var n = data.length;
+<ul>
+<li>binary_heap: <a href="http://330k.github.io/priorityqueue_js/binary_heap.js">http://330k.github.io/priorityqueue_js/binary_heap.js</a>
+</li>
+<li>d_ary_heap: <a href="http://330k.github.io/priorityqueue_js/d_ary_heap.js">http://330k.github.io/priorityqueue_js/d_ary_heap.js</a>
+</li>
+<li>fibonacci_heap: <a href="http://330k.github.io/priorityqueue_js/fibonacci_heap.js">http://330k.github.io/priorityqueue_js/fibonacci_heap.js</a>
+</li>
+<li>leftist_heap: <a href="http://330k.github.io/priorityqueue_js/leftist_heap.js">http://330k.github.io/priorityqueue_js/leftist_heap.js</a>
+</li>
+<li>pairing_heap: <a href="http://330k.github.io/priorityqueue_js/pairing_heap.js">http://330k.github.io/priorityqueue_js/pairing_heap.js</a>
+</li>
+<li>skew_heap: <a href="http://330k.github.io/priorityqueue_js/skew_heap.js">http://330k.github.io/priorityqueue_js/skew_heap.js</a>
+</li>
+</ul>
 
-	// 連続追加、削除のテスト
-	time.push((new Date()).getTime());
-	var q = new queue();
-	for(var i = 0; i < n; i++){
-		q.enqueue(data[i].p, data[i].v);
-	}
-	time.push((new Date()).getTime());
-	while(q.size() > 0){
-		sorted.push(q.dequeue());
-	}
-	time.push((new Date()).getTime());
-	
-	// Douglas-Peuckerを想定したテスト(2個追加して1個削除の繰り返し)
-	for(var i = 0; i < n; i += 2){
-		q.enqueue(data[i].p, data[i].v);
-		q.enqueue(data[i + 1].p, data[i + 1].v);
-		sorted.push(q.dequeue());
-	}
-	while(q.size() > 0){
-		sorted.push(q.dequeue());
-	}
-	time.push((new Date()).getTime());
-	
-	console.log(crc32(sorted).toString(16));	// 結果の確認
-	
-	var queuename = q.name;
-	q = null;
-	
-	return {
-		n: n,
-		name: queuename,
-		sequential_enqueue: time[1] - time[0],
-		sequential_dequeue: time[2] - time[1],
-		sequential_total: time[2] - time[0],
-		pseudodp: time[3] - time[2]
-	};
-}
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
-var crc32 = (function(){
-	var poly = 0xEDB88320;  
-	var table = [];
-	//create table
-	for(var i = 0; i < 256; i++) {  
-		var u = i;  
-		for(var j = 0; j < 8; j++) {  
-			if(u & 0x1) u = (u >>> 1) ^ poly;  
-			else        u >>>= 1;  
-		}  
-		table.push(u>>>0);
-	}
+<ol>
+<li>Load .js (e.g. binary_heap.js, pairing_heap.js)</li>
+<li>create priority queue object by calling function (e.g. <code>binary_heap()</code>, <code>pairing_heap()</code>)</li>
+<li>call <code>enqueue</code> method to add data with priority: 1st argument is priority, 2nd argument can be any JS object.</li>
+<li>call <code>dequeue</code> method to retrieve data with largest priority.</li>
+</ol>
 
-	return (function(array){
-		var result = 0xFFFFFFFF;
-		var l = array.length;
+<h1>
+<a id="example-binary-heap" class="anchor" href="#example-binary-heap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Binary Heap</h1>
 
-		//calculate
-		for(var i = 0; i < l; i++)
-			result = ((result >>> 8) ^ table[(array[i] & 0xFF) ^ (result & 0xFF)])>>>0;
-		return (~result)>>>0;
-	});
-})();
+<pre><code>&lt;script type="text/javascript" src="//330k.github.io/priorityqueue_js/binary_heap.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  var queue = binary_heap();
+  queue.enqueue(3, "data1");
+  queue.enqueue(1, "data2");
+  queue.enqueue(2, "data3");
+  console.log(queue.dequeue());  // data1
+  console.log(queue.dequeue());  // data3
+  console.log(queue.dequeue());  // data2
+&lt;/script&gt;
+</code></pre>
 
-onmessage = function(e) {
-	// ダミーデータ生成
-	var i = 0;
-	var data = [];
-	
-	for(i = 0; i < e.data.n; i++){
-		data.push({p: mt.next(), v: i});
-	}
-	
-	// 測定
-	for(i = 0; i < e.data.target.length; i++){
-		postMessage(timingQueuePerformance(self[e.data.target[i]], data));
-	}
-};
-importScripts('http://oretoku.net/apps/mt.js');
-var mt = new MersenneTwister(0x9876543210);
+<h1>
+<a id="benchmark" class="anchor" href="#benchmark" aria-hidden="true"><span class="octicon octicon-link"></span></a>Benchmark</h1>
 
-</script>
+<p>visit <a href="http://330k.github.io/priorityqueue_js/">http://330k.github.io/priorityqueue_js/</a></p>
 
-<script type="text/javascript">
-var worker = null;
-var result = {};
-var cols = {};
+<p>binary heap, d-ary heap and pairing heap scores good performance stably.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/330k">330k</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-71005141-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
 
-var xhr = new XMLHttpRequest();
-var js = ['binary_heap.js','d_ary_heap.js','fibonacci_heap.js','leftist_heap.js','pairing_heap.js','skew_heap.js'];
-for(var i = 0; i < js.length; i++){
-	xhr.open('GET', '//330k.github.io/priorityqueue_js/' + js[i], false);
-	xhr.send();
-	var e = document.createTextNode(xhr.responseText);
-	document.getElementById('worker').appendChild(e);
-};
-
-function startBenchmark(){
-	if(worker){
-		stopBenchmark();
-	}
-	var bb = new Blob([document.getElementById('worker').text], {type:'text/javascript'});
-	worker = new Worker(window.URL.createObjectURL(bb));
-	result = {};
-	cols = {};
-	
-	worker.onmessage = function(e){
-		var data = e.data;
-		
-		if(typeof result[data.n] === 'undefined'){
-			result[data.n] = {};
-		}
-		result[data.n][data.name] = data;
-		cols[data.name] = null;
-	
-		var buf = [];
-		buf.push('<table>');
-		buf.push('<tr>');
-		buf.push('<tr><th></th>');
-		var count = 0;
-		for(var name in cols){
-			count++;
-		}
-		buf.push('<th colspan="' + count + '">Sequential (Sort)</th>');
-		buf.push('<th colspan="' + count + '">2-enqueue 1-dequeue</th>');
-		buf.push('</tr>');
-		buf.push('<tr><th>n</th>');
-		for(var name in cols){
-			buf.push('<th>' + name + '</th>');
-		}
-		for(var name in cols){
-			buf.push('<th>' + name + '</th>');
-		}
-		buf.push('</tr>');
-		for(var n in result){
-			buf.push('<tr>');
-			buf.push('<td>' + n + '</td>');
-			for(var name in cols){
-				try{
-					buf.push('<td>' + result[n][name].sequential_total + '</td>');
-				}catch(e){
-					buf.push('<td></td>');
-				}
-			}
-			for(var name in cols){
-				try{
-					buf.push('<td>' + result[n][name].pseudodp + '</td>');
-				}catch(e){
-					buf.push('<td></td>');
-				}
-			}
-			buf.push('</tr>');
-		}
-		buf.push('</table>');
-	
-		document.getElementById('result').innerHTML = buf.join('');
-	};
-
-	worker.postMessage({n: 500000,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n: 500002,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n: 500004,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n: 500006,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n: 500008,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
-}
-function stopBenchmark(){
-	if(worker){
-		worker.terminate();
-		worker = (void 0);
-	}
-}
-
-</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-71005141-3', 'auto');
-  ga('send', 'pageview');
-
-</script>
-</body>
+  </body>
 </html>
