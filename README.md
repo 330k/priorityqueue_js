@@ -33,4 +33,5 @@ binary heap, d-ary heap and pairing heap scores good performance stably.
 
 # Copyright
 
+* *_heap.js Copyright 330k MIT License
 * mt.js - from http://oretoku.net/apps/mt.js
