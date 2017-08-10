@@ -107,7 +107,7 @@ onmessage = function(e) {
 		postMessage(timingQueuePerformance(self[e.data.target[i]], data));
 	}
 };
-importScripts(location.href.split('/').slice(0,-1).join('/') + '/mt.js');
+//importScripts('https://www.330k.info/priorityqueue_js/mt.js');
 var mt = new MersenneTwister(0x9876543210);
 
 </script>
@@ -118,7 +118,7 @@ var result = {};
 var cols = {};
 
 var xhr = new XMLHttpRequest();
-var js = ['binary_heap.js','d_ary_heap.js','fibonacci_heap.js','leftist_heap.js','pairing_heap.js','skew_heap.js'];
+var js = ['mt.js','binary_heap.js','d_ary_heap.js','fibonacci_heap.js','leftist_heap.js','pairing_heap.js','skew_heap.js'];
 for(var i = 0; i < js.length; i++){
 	xhr.open('GET', location.href.split('/').slice(0,-1).join('/') + '/' + js[i], false);
 	xhr.send();
