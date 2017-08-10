@@ -107,7 +107,14 @@ onmessage = function(e) {
 		postMessage(timingQueuePerformance(self[e.data.target[i]], data));
 	}
 };
-//importScripts('https://www.330k.info/priorityqueue_js/mt.js');
+importScripts('https://www.330k.info/priorityqueue_js/mt.js');
+importScripts('https://www.330k.info/priorityqueue_js/binary_heap.js');
+importScripts('https://www.330k.info/priorityqueue_js/d_ary_heap.js');
+importScripts('https://www.330k.info/priorityqueue_js/fibonacci_heap.js');
+importScripts('https://www.330k.info/priorityqueue_js/leftist_heap.js');
+importScripts('https://www.330k.info/priorityqueue_js/pairing_heap.js');
+importScripts('https://www.330k.info/priorityqueue_js/skew_heap.js');
+
 var mt = new MersenneTwister(0x9876543210);
 
 </script>
@@ -116,15 +123,6 @@ var mt = new MersenneTwister(0x9876543210);
 var worker = null;
 var result = {};
 var cols = {};
-
-var xhr = new XMLHttpRequest();
-var js = ['mt.js','binary_heap.js','d_ary_heap.js','fibonacci_heap.js','leftist_heap.js','pairing_heap.js','skew_heap.js'];
-for(var i = 0; i < js.length; i++){
-	xhr.open('GET', location.href.split('/').slice(0,-1).join('/') + '/' + js[i], false);
-	xhr.send();
-	var e = document.createTextNode(xhr.responseText);
-	document.getElementById('worker').appendChild(e);
-};
 
 function startBenchmark(){
 	if(worker){
