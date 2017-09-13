@@ -78,7 +78,7 @@ function d_ary_heap(d){
 		return result;
 	};
 	var top = function(){
-		return data[0].v;
+		return _data[0].v;
 	};
 	var size = function(){
 		return _size;
