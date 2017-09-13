@@ -38,7 +38,7 @@ function fibonacci_heap(){
 		_size++;
 	};
 	var dequeue = function(){
-		var result = _top;
+		var result = _top.v;
 		_size--;
 		
 		if(_top.next === _top){
@@ -52,7 +52,7 @@ function fibonacci_heap(){
 		_top = _mergeList(_top, result.firstchild);
 		
 		if(_top === null){
-			return result.v;
+			return result;
 		}
 		
 		var ranks = [];
@@ -99,8 +99,11 @@ function fibonacci_heap(){
 			}
 		}
 		
-		return result.v;
-        };
+		return result;
+	};
+	var top = function(){
+		return _top.v;
+	};
 	var size = function(){
 		return _size;
 	};
@@ -109,6 +112,7 @@ function fibonacci_heap(){
 		name: 'Fibonacci Heap',
 		enqueue: enqueue,
 		dequeue: dequeue,
+		top: top,
 		size: size
 	};
 }

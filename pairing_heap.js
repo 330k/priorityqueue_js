@@ -63,6 +63,9 @@ function pairing_heap(){
 		
 		return result;
 	};
+	var top = function(){
+		return _root.v;
+	};
 	var size = function(){
 		return _size;
 	};
@@ -71,6 +74,7 @@ function pairing_heap(){
 		name: 'Pairing Heap',
 		enqueue: enqueue,
 		dequeue: dequeue,
+		top: top,
 		size: size
 	};
 }

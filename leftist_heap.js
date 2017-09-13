@@ -46,6 +46,9 @@ function leftist_heap(){
 		
 		return result;
 	};
+	var top = function(){
+		return _root.v;
+	};
 	var size = function(){
 		return _size;
 	};
@@ -54,6 +57,7 @@ function leftist_heap(){
 		name: 'Leftist Heap',
 		enqueue: enqueue,
 		dequeue: dequeue,
+		top: top,
 		size: size
 	};
 }

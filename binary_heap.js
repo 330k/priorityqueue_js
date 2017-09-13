@@ -36,7 +36,7 @@ function binary_heap(){
 	var dequeue = function(){
 		var data = _data;
 		var size = _size;
-		var result = data[0];
+		var result = data[0].v;
 		
 		data[0] = data[size - 1];
 		data.pop();
@@ -81,7 +81,10 @@ function binary_heap(){
 		}
 		
 		_size = size;
-		return result.v;
+		return result;
+	};
+	var top = function(){
+		return data[0].v;
 	};
 	var size = function(){
 		return _size;
@@ -91,6 +94,7 @@ function binary_heap(){
 		name: 'Binary Heap',
 		enqueue: enqueue,
 		dequeue: dequeue,
+		top: top,
 		size: size
 	};
 }

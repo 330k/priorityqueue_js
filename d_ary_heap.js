@@ -77,6 +77,9 @@ function d_ary_heap(d){
 		_size = size;
 		return result;
 	};
+	var top = function(){
+		return data[0].v;
+	};
 	var size = function(){
 		return _size;
 	};
@@ -85,6 +88,7 @@ function d_ary_heap(d){
 		name: 'd-ary Heap (d=' + _d + ')',
 		enqueue: enqueue,
 		dequeue: dequeue,
+		top: top,
 		size: size
 	};
 }
