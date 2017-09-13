@@ -19,9 +19,16 @@ Simple JavaScript Priority Queue (Max-Heap) Implementation
     <script type="text/javascript" src="//330k.github.io/priorityqueue_js/binary_heap.js"></script>
     <script type="text/javascript">
       var queue = binary_heap();
+      //var queue = new d_ary_heap(4);
+      //var queue = new pairing_heap();
+      //var queue = new leftist_heap();
+      //var queue = new skew_heap();
+      //var queue = new fibonacci_heap();
+
       queue.enqueue(3, "data1");
       queue.enqueue(1, "data2");
       queue.enqueue(2, "data3");
+      
       console.log(queue.dequeue());  // data1
       console.log(queue.top());      // data3
       console.log(queue.dequeue());  // data3
