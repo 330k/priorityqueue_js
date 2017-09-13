@@ -38,7 +38,7 @@ function fibonacci_heap(){
 		_size++;
 	};
 	var dequeue = function(){
-		var result = _top.v;
+		var result = _top;
 		_size--;
 		
 		if(_top.next === _top){
@@ -52,7 +52,7 @@ function fibonacci_heap(){
 		_top = _mergeList(_top, result.firstchild);
 		
 		if(_top === null){
-			return result;
+			return result.v;
 		}
 		
 		var ranks = [];
@@ -99,7 +99,7 @@ function fibonacci_heap(){
 			}
 		}
 		
-		return result;
+		return result.v;
 	};
 	var top = function(){
 		return _top.v;
