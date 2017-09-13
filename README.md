@@ -1,5 +1,5 @@
 # priorityqueue_js
-Simple JavaScript Priority Queue (Heap) Implementation
+Simple JavaScript Priority Queue (Max-Heap) Implementation
 
 * binary_heap: https://330k.github.io/priorityqueue_js/binary_heap.js
 * d_ary_heap: https://330k.github.io/priorityqueue_js/d_ary_heap.js
@@ -23,7 +23,7 @@ Simple JavaScript Priority Queue (Heap) Implementation
       queue.enqueue(1, "data2");
       queue.enqueue(2, "data3");
       console.log(queue.dequeue());  // data1
-      console.log(queue.top());  // data3
+      console.log(queue.top());      // data3
       console.log(queue.dequeue());  // data3
       console.log(queue.dequeue());  // data2
     </script>
