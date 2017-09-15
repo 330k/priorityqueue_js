@@ -9,18 +9,22 @@ function d_ary_heap(d){
 	var _d = d || 4;
 	var _data = [];
 	var _size = 0;
+	var dinv = 1 / d;
+
 	var enqueue = function(priority, value){
 		var data = _data;
-		var dinv = 1 / _d;
+		var ret;
+		var i;
+		var p;
 		
 		if(_size){
 			data.push({p: priority, v: value});
 			_size++;
-			var i = _size - 1;
-			var p = ~~((i - 1) * dinv);
+			i = _size - 1;
+			p = ~~((i - 1) * dinv);
 			while(p >= 0){
 				if(data[p].p < data[i].p){
-					var ret = data[i];
+					ret = data[i];
 					data[i] = data[p];
 					data[p] = ret;
 				
@@ -39,32 +43,38 @@ function d_ary_heap(d){
 		var data = _data;
 		var size = _size;
 		var result = data[0].v;
+		var i = 0;
+		var c = 1;
+		var p0;
+		var pmax;
+		var pret;
+		var cmax;
+		var j;
+		var jmax;
+		var ret;
 		
 		data[0] = data[size - 1];
 		data.pop();
 		size--;
 		
-		var i = 0;
-		var c = 1;
-		
 		while(c < size){
-			var p0 = data[i].p;
-			var pmax = data[c].p;
-			var cmax = c;
+			p0 = data[i].p;
+			pmax = data[c].p;
+			cmax = c;
 			
-			var jmax = c + _d;
+			jmax = c + _d;
 			if(jmax > size){
 				jmax = size;
 			}
-			for(var j = c + 1; j < jmax; j++){
-				var pret = data[j].p;
+			for(j = c + 1; j < jmax; j++){
+				pret = data[j].p;
 				if(pmax < pret){
 					pmax = pret;
 					cmax = j;
 				}
 			}
 			if(p0 < pmax){
-				var ret = data[i];
+				ret = data[i];
 				data[i] = data[cmax];
 				data[cmax] = ret;
 			}else{

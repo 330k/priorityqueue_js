@@ -9,11 +9,13 @@ function leftist_heap(){
 	var _root = null;
 	var _size = 0;
 	var _merge = function(i, j){
+		var ret;
+		
 		if(i === null) return j;
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			var ret = i;
+			ret = i;
 			i = j;
 			j = ret;
 		}

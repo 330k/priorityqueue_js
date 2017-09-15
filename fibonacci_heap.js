@@ -9,10 +9,12 @@ function fibonacci_heap(){
 	var _top = null;
 	var _size = 0;
 	var _mergeList = function(i, j){
+		var iNext;
+
 		if(i === null) return j;
 		if(j === null) return i;
 		
-		var iNext = i.next;
+		iNext = i.next;
 		i.next = j.next;
 		i.next.prev = i;
 		j.next = iNext;
@@ -39,6 +41,14 @@ function fibonacci_heap(){
 	};
 	var dequeue = function(){
 		var result = _top;
+		var ranks = [];
+		var roots = [];
+		var curr;
+		var i;
+		var other;
+		var min;
+		var max;
+
 		_size--;
 		
 		if(_top.next === _top){
@@ -55,26 +65,22 @@ function fibonacci_heap(){
 			return result.v;
 		}
 		
-		var ranks = [];
-		var roots = [];
-
-		var curr = _top;
+		curr = _top;
 		do{
 			roots.push(curr);
 			curr = curr.next;
 		} while(curr !== _top);
 		
-		for(var i = 0; i < roots.length; i++){
+		for(i = 0; i < roots.length; i++){
 			curr = roots[i];
 			while(true){
 				if(ranks[curr.rank] === undefined){
 					ranks[curr.rank] = curr;
 					break;
 				}
-				var other = ranks[curr.rank];
+				other = ranks[curr.rank];
 				ranks[curr.rank] = undefined;
 				
-				var min, max;
 				if(curr.p < other.p){
 					min = curr;
 					max = other;

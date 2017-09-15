@@ -10,15 +10,18 @@ function binary_heap(){
 	var _size = 0;
 	var enqueue = function(priority, value){
 		var data = _data;
+		var i;
+		var p;
+		var ret;
 		
 		if(_size){
 			data.push({p: priority, v: value});
 			_size++;
-			var i = _size - 1;
-			var p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
+			i = _size - 1;
+			p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
 			while(p >= 0){
 				if(data[p].p < data[i].p){
-					var ret = data[i];
+					ret = data[i];
 					data[i] = data[p];
 					data[p] = ret;
 				
@@ -37,28 +40,31 @@ function binary_heap(){
 		var data = _data;
 		var size = _size;
 		var result = data[0].v;
+		var i = 0;
+		var c1 = 1;	// left child
+		var c2 = 2;	// right child
+		var p0;
+		var p1;
+		var p2;
+		var ret;
 		
 		data[0] = data[size - 1];
 		data.pop();
 		size--;
 		
-		var i = 0;
-		var c1 = 1;	// left child
-		var c2 = 2;	// right child
-		
 		while(c1 < size){
 			if(c2 < size){
-				var p0 = data[i].p;
-				var p1 = data[c1].p;
-				var p2 = data[c2].p;
+				p0 = data[i].p;
+				p1 = data[c1].p;
+				p2 = data[c2].p;
 			
 				if((p1 < p2) && (p0 < p2)){
-					var ret = data[i];
+					ret = data[i];
 					data[i] = data[c2];
 					data[c2] = ret;
 					i = c2;
 				}else if(p0 < p1){
-					var ret = data[i];
+					ret = data[i];
 					data[i] = data[c1];
 					data[c1] = ret;
 					i = c1;
@@ -68,11 +74,11 @@ function binary_heap(){
 				c1 = i * 2 + 1;
 				c2 = i * 2 + 2;
 			}else{
-				var p0 = data[i].p;
-				var p1 = data[c1].p;
+				p0 = data[i].p;
+				p1 = data[c1].p;
 				
 				if(p0 < p1){
-					var ret = data[i];
+					ret = data[i];
 					data[i] = data[c1];
 					data[c1] = ret;
 				}

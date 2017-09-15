@@ -9,11 +9,13 @@ function pairing_heap(){
 	var _root = null;
 	var _size = 0;
 	var _merge = function (i, j){
+		var ret;
+
 		if(i === null) return j;
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			var ret = i;
+			ret = i;
 			i = j;
 			j = ret;
 		}
@@ -24,10 +26,13 @@ function pairing_heap(){
 	};
 	var _mergeList = function (s){
 		var n = null;
+		var a;
+		var b;
+		var j;
 		
 		while(s !== null){
-			var a = s;
-			var b = null;
+			a = s;
+			b = null;
 			s = s.next;
 			a.next = null;
 			if(s !== null){
@@ -40,7 +45,7 @@ function pairing_heap(){
 			n = a;
 		}
 		while(n !== null){
-			var j = n;
+			j = n;
 			n = n.next;
 			s = _merge(j, s);
 		}
