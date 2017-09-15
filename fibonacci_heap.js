@@ -6,6 +6,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function fibonacci_heap(){
+	"use strict";
 	var _top = null;
 	var _size = 0;
 	var _mergeList = function(i, j){

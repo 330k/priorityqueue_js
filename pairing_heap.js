@@ -6,6 +6,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function pairing_heap(){
+	"use strict";
 	var _root = null;
 	var _size = 0;
 	var _merge = function (i, j){

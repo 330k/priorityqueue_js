@@ -6,6 +6,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function binary_heap(){
+	"use strict";
 	var _data = [];
 	var _size = 0;
 	var enqueue = function(priority, value){

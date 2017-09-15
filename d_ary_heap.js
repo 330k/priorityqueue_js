@@ -6,6 +6,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function d_ary_heap(d){
+	"use strict";
 	var _d = d || 4;
 	var _data = [];
 	var _size = 0;

@@ -6,6 +6,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function skew_heap(){
+	"use strict";
 	var _root = null;
 	var _size = 0;
 	
