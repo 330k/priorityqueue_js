@@ -9,7 +9,7 @@ function d_ary_heap(d){
 	var _d = d || 4;
 	var _data = [];
 	var _size = 0;
-	var dinv = 1 / _d;
+	var _dinv = 1 / _d;
 
 	var enqueue = function(priority, value){
 		var data = _data;
@@ -21,7 +21,7 @@ function d_ary_heap(d){
 			data.push({p: priority, v: value});
 			_size++;
 			i = _size - 1;
-			p = ~~((i - 1) * dinv);
+			p = ~~((i - 1) * _dinv);
 			while(p >= 0){
 				if(data[p].p < data[i].p){
 					ret = data[i];
@@ -29,7 +29,7 @@ function d_ary_heap(d){
 					data[p] = ret;
 				
 					i = p;
-					p = ~~((i - 1) * dinv);
+					p = ~~((i - 1) * _dinv);
 				}else{
 					break;
 				}
