@@ -9,13 +9,13 @@ function d_ary_heap(d){
 	var _d = d || 4;
 	var _data = [];
 	var _size = 0;
-	var dinv = 1 / d;
 
 	var enqueue = function(priority, value){
 		var data = _data;
 		var ret;
 		var i;
 		var p;
+		var dinv = 1 / d;
 		
 		if(_size){
 			data.push({p: priority, v: value});
