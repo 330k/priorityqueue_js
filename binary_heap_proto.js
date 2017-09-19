@@ -10,6 +10,7 @@ function binary_heap_proto(){
 	//this = this || {};
 	this._data = [];
 	this._size = 0;
+	this.name = "Binary Heap (Prototype)";
 	
 	return this;
 }
