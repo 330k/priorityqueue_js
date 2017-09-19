@@ -7,7 +7,7 @@
  */
 function binary_heap_proto(){
 	"use strict";
-	this = this || {};
+	//this = this || {};
 	this._data = [];
 	this._size = 0;
 	
