@@ -15,15 +15,15 @@ function binary_heap_proto(){
 }
 
 binary_heap_proto.prototype.enqueue = function(priority, value){
-	var data = _data;
+	var data = this._data;
 	var i;
 	var p;
 	var ret;
 	
-	if(_size){
+	if(this._size){
 		data.push({p: priority, v: value});
-		_size++;
-		i = _size - 1;
+		this._size++;
+		i = this._size - 1;
 		p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
 		while(p >= 0){
 			if(data[p].p < data[i].p){
@@ -39,13 +39,13 @@ binary_heap_proto.prototype.enqueue = function(priority, value){
 		}
 	}else{
 		data.push({p: priority, v: value});
-		_size++;
+		this._size++;
 	}
 };
 
 binary_heap_proto.prototype.dequeue = function(){
-	var data = _data;
-	var size = _size;
+	var data = this._data;
+	var size = this._size;
 	var result = data[0].v;
 	var i = 0;
 	var c1 = 1;	// left child
@@ -93,13 +93,13 @@ binary_heap_proto.prototype.dequeue = function(){
 		}
 	}
 	
-	_size = size;
+	this._size = size;
 	return result;
 };
 
 binary_heap_proto.prototype.top = function(){
-	return _data[0].v;
+	return this._data[0].v;
 };
 binary_heap_proto.prototype.size = function(){
-	return _size;
+	return this._size;
 };
