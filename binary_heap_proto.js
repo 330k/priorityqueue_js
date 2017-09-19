@@ -31,9 +31,10 @@ binary_heap_proto.prototype.enqueue = function(priority, value){
 		p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
 		while(p >= 0){
 			if(data[p].p < data[i].p){
-				ret = data[i];
+				/*ret = data[i];
 				data[i] = data[p];
-				data[p] = ret;
+				data[p] = ret;*/
+				[data[p], data[i]] = [data[i], data[p]];
 			
 				i = p;
 				p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);
@@ -70,14 +71,16 @@ binary_heap_proto.prototype.dequeue = function(){
 			p2 = data[c2].p;
 		
 			if((p1 < p2) && (p0 < p2)){
-				ret = data[i];
+				/*ret = data[i];
 				data[i] = data[c2];
-				data[c2] = ret;
+				data[c2] = ret;*/
+				[data[c2], data[i]] = [data[i], data[c2]];
 				i = c2;
 			}else if(p0 < p1){
-				ret = data[i];
+				/*ret = data[i];
 				data[i] = data[c1];
-				data[c1] = ret;
+				data[c1] = ret;*/
+				[data[c1], data[i]] = [data[i], data[c1]];
 				i = c1;
 			}else{
 				break;
@@ -89,9 +92,10 @@ binary_heap_proto.prototype.dequeue = function(){
 			p1 = data[c1].p;
 			
 			if(p0 < p1){
-				ret = data[i];
+				/*ret = data[i];
 				data[i] = data[c1];
-				data[c1] = ret;
+				data[c1] = ret;*/
+				[data[c1], data[i]] = [data[i], data[c1]];
 			}
 			break;
 		}
