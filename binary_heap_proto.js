@@ -1,5 +1,5 @@
 /* Binary Heap
- * Copyright 2015 330k
+ * Copyright 2017 330k
  * https://github.com/330k/
  *
  * This software is released under the MIT License.
