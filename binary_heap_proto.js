@@ -1,0 +1,105 @@
+/* Binary Heap
+ * Copyright 2015 330k
+ * https://github.com/330k/
+ *
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+function binary_heap_proto(){
+	"use strict";
+	this = this || {};
+	this._data = [];
+	this._size = 0;
+	
+	return this;
+}
+
+binary_heap_proto.prototype.enqueue = function(priority, value){
+	var data = _data;
+	var i;
+	var p;
+	var ret;
+	
+	if(_size){
+		data.push({p: priority, v: value});
+		_size++;
+		i = _size - 1;
+		p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
+		while(p >= 0){
+			if(data[p].p < data[i].p){
+				ret = data[i];
+				data[i] = data[p];
+				data[p] = ret;
+			
+				i = p;
+				p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);
+			}else{
+				break;
+			}
+		}
+	}else{
+		data.push({p: priority, v: value});
+		_size++;
+	}
+};
+
+binary_heap_proto.prototype.dequeue = function(){
+	var data = _data;
+	var size = _size;
+	var result = data[0].v;
+	var i = 0;
+	var c1 = 1;	// left child
+	var c2 = 2;	// right child
+	var p0;
+	var p1;
+	var p2;
+	var ret;
+	
+	data[0] = data[size - 1];
+	data.pop();
+	size--;
+	
+	while(c1 < size){
+		if(c2 < size){
+			p0 = data[i].p;
+			p1 = data[c1].p;
+			p2 = data[c2].p;
+		
+			if((p1 < p2) && (p0 < p2)){
+				ret = data[i];
+				data[i] = data[c2];
+				data[c2] = ret;
+				i = c2;
+			}else if(p0 < p1){
+				ret = data[i];
+				data[i] = data[c1];
+				data[c1] = ret;
+				i = c1;
+			}else{
+				break;
+			}
+			c1 = i * 2 + 1;
+			c2 = i * 2 + 2;
+		}else{
+			p0 = data[i].p;
+			p1 = data[c1].p;
+			
+			if(p0 < p1){
+				ret = data[i];
+				data[i] = data[c1];
+				data[c1] = ret;
+			}
+			break;
+		}
+	}
+	
+	_size = size;
+	return result;
+};
+
+binary_heap_proto.prototype.top = function(){
+	return _data[0].v;
+};
+binary_heap_proto.prototype.size = function(){
+	return _size;
+};
