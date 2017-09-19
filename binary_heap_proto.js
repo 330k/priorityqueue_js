@@ -7,19 +7,22 @@
  */
 function binary_heap_proto(){
 	"use strict";
-	//this = this || {};
+
+    if(!(this instanceof binary_heap_proto)){
+        return new binary_heap_proto();
+	}
+	
 	this._data = [];
 	this._size = 0;
-	this.name = "Binary Heap (Prototype)";
-	
+
 	return this;
 }
 
 binary_heap_proto.prototype.enqueue = function(priority, value){
 	var data = this._data;
-	var i;
+	var i = 0;
 	var p;
-	var ret;
+	var ret = null;
 	
 	if(this._size){
 		data.push({p: priority, v: value});
@@ -54,7 +57,7 @@ binary_heap_proto.prototype.dequeue = function(){
 	var p0;
 	var p1;
 	var p2;
-	var ret;
+	var ret = null;
 	
 	data[0] = data[size - 1];
 	data.pop();
@@ -104,3 +107,4 @@ binary_heap_proto.prototype.top = function(){
 binary_heap_proto.prototype.size = function(){
 	return this._size;
 };
+binary_heap_proto.prototype.name = "Binary Heap (Prototype)";
