@@ -9,9 +9,9 @@ function compared_heap(d){
 	"use strict";
 	var _root = null;
 	var _size = 0;
-	var _merge = function (i, j){
-		var ret = null;
-
+	var _merge = function(i, j){
+		var ret;
+		
 		if(i === null) return j;
 		if(j === null) return i;
 		
@@ -20,60 +20,34 @@ function compared_heap(d){
 			i = j;
 			j = ret;
 		}
-		j.next = i.head;
-		i.head = j;
+		i.right = _merge(i.right, j);
+		if((i.left === null) || (i.left.s < i.right.s)){
+			ret = i.right;
+			i.right = i.left;
+			i.left = ret;
+		}
+		i.s = ((i.right === null) ? 0 : i.right.s) + 1;
 		
 		return i;
-	};
-	var _mergeList = function (s){
-		var n = null;
-		var a = null;
-		var b = null;
-		var j = null;
-		
-		while(s !== null){
-			a = s;
-			b = null;
-			s = s.next;
-			a.next = null;
-			if(s !== null){
-				b = s;
-				s = s.next;
-				b.next = null;
-			}
-			a = _merge(a, b);
-			a.next = n;
-			n = a;
-		}
-		while(n !== null){
-			j = n;
-			n = n.next;
-			s = _merge(j, s);
-		}
-		return s;
 	};
 	
 	var enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
 			v: value,
-			next: null,
-			head: null
+			left: null,
+			right: null,
+			s: 1
 		});
-		_size = _size + 1;
+		_size++;
 	};
 	var dequeue = function(){
-		var result = null;
-
-		if(_size){
-			result = _root.v;
-			_root = _mergeList(_root.head);
-			_size = _size - 1;
+		var result = _root.v;
 		
-			return result;
-		}else{
-			return (void 0);
-		}
+		_root = _merge(_root.left, _root.right);
+		_size--;
+		
+		return result;
 	};
 	var top = function(){
 		return _root.v;
