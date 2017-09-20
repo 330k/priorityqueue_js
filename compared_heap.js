@@ -23,8 +23,6 @@ function compared_heap(){
 
 		return i.p > j.p ? i : j;
 	};
-	var _ranks = [];
-	var _roots = [];
 	
 	var enqueue = function(priority, value){
 		var newnode = {
@@ -45,6 +43,8 @@ function compared_heap(){
 	var dequeue = function(){
 		var top = _top;
 		var result = top;
+		var ranks = [];
+		var roots = [];
 		var i = 0;
 		var l = 0;
 		var curr = null;
@@ -70,23 +70,21 @@ function compared_heap(){
 				return result.v;
 			}
 
-			_roots.length = 0;
 			curr = top;
 			do{
-				_roots.push(curr);
+				roots.push(curr);
 				curr = curr.next;
 			} while(curr !== top);
 			
-			_ranks.length = 0;
-			for(i = 0, l = _roots.length; i < l; i++){
-				curr = _roots[i];
+			for(i = 0, l = roots.length; i < l; i++){
+				curr = roots[i];
 				while(true){
-					if(_ranks[curr.rank] === undefined){
-						_ranks[curr.rank] = curr;
+					if(ranks[curr.rank] === undefined){
+						ranks[curr.rank] = curr;
 						break;
 					}
-					other = _ranks[curr.rank];
-					_ranks[curr.rank] = undefined;
+					other = ranks[curr.rank];
+					ranks[curr.rank] = undefined;
 					
 					if(curr.p < other.p){
 						min = curr;
@@ -99,7 +97,8 @@ function compared_heap(){
 					min.next.prev = min.prev;
 					min.prev.next = min.next;
 					
-					min.next = min.prev = min;
+					min.next = min;
+					min.prev = min;
 					max.firstchild = _mergeList(max.firstchild, min);
 					
 					min.marked = false;
