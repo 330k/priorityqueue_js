@@ -23,6 +23,8 @@ function compared_heap(){
 
 		return i.p > j.p ? i : j;
 	};
+	var _ranks = [];
+	var _roots = [];
 	
 	var enqueue = function(priority, value){
 		var newnode = {
@@ -43,8 +45,6 @@ function compared_heap(){
 	var dequeue = function(){
 		var top = _top;
 		var result = top;
-		var ranks = [];
-		var roots = [];
 		var i = 0;
 		var l = 0;
 		var curr = null;
@@ -70,21 +70,23 @@ function compared_heap(){
 				return result.v;
 			}
 
+			_roots.length = 0;
 			curr = top;
 			do{
-				roots.push(curr);
+				_roots.push(curr);
 				curr = curr.next;
 			} while(curr !== top);
 			
-			for(i = 0, l = roots.length; i < l; i++){
-				curr = roots[i];
+			_ranks.length = 0;
+			for(i = 0, l = _roots.length; i < l; i++){
+				curr = _roots[i];
 				while(true){
-					if(ranks[curr.rank] === undefined){
-						ranks[curr.rank] = curr;
+					if(_ranks[curr.rank] === undefined){
+						_ranks[curr.rank] = curr;
 						break;
 					}
-					other = ranks[curr.rank];
-					ranks[curr.rank] = undefined;
+					other = _ranks[curr.rank];
+					_ranks[curr.rank] = undefined;
 					
 					if(curr.p < other.p){
 						min = curr;
