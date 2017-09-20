@@ -68,11 +68,14 @@ function compared_heap(){
 				return result.v;
 			}
 
-			root = top;
+			curr = top;
 			do{
-				curr = root;
-				root = root.next;
-				
+				roots.push(curr);
+				curr = curr.next;
+			} while(curr !== top);
+			
+			for(i = 0; i < roots.length; i++){
+				curr = roots[i];
 				while(true){
 					if(ranks[curr.rank] === undefined){
 						ranks[curr.rank] = curr;
@@ -104,7 +107,7 @@ function compared_heap(){
 					top = curr;
 				}
 
-			} while(root !== top);
+			}
 			
 			_top = top;
 			return result.v;
