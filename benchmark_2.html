@@ -186,10 +186,10 @@ function startBenchmark(){
 	};
 
 	worker.postMessage({n:  10000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n:  25000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
+	worker.postMessage({n:  20000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
 	worker.postMessage({n:  50000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
 	worker.postMessage({n: 100000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
-	worker.postMessage({n: 250000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
+	worker.postMessage({n: 200000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
 	worker.postMessage({n: 500000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
 	worker.postMessage({n:1000000,target:['binary_heap','binary_heap_proto','d_ary_heap','leftist_heap','pairing_heap','skew_heap']});
 	//worker.postMessage({n: 500002,target:['binary_heap','d_ary_heap','fibonacci_heap','leftist_heap','pairing_heap','skew_heap']});
