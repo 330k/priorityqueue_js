@@ -90,7 +90,7 @@ function compared_heap(){
 						break;
 					}
 					other = ranks[curr.rank];
-					delete ranks[curr.rank];
+					ranks.splice(curr.rank, 1);
 					
 					if(curr.p < other.p){
 						min = curr;
