@@ -48,7 +48,7 @@ function binary_heap_proto(){
 		var p2 = 0.0;
 		var ret = null;
 		
-		data[0] = data[size - 1];
+		data[0] = data[size];
 		data.pop();
 		
 		while(c1 < size){
