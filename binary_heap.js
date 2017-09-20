@@ -90,7 +90,7 @@ function binary_heap(){
 			_size = size;
 			return result;
 		}else{
-			return undefined;
+			return (void 0);
 		}
 	};
 	var top = function(){
