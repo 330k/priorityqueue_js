@@ -85,7 +85,7 @@ function compared_heap(){
 					}
 					other = ranks[curr.rank];
 					ranks[curr.rank] = undefined;*/
-					if(curr.rank in ranks){
+					if(!(curr.rank in ranks){
 						ranks[curr.rank] = curr;
 						break;
 					}
