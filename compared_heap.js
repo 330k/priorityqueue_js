@@ -43,7 +43,7 @@ function compared_heap(){
 	var dequeue = function(){
 		var top = _top;
 		var result = top;
-		var ranks = new Map();//[];
+		var ranks = [];
 		var roots = [];
 		var i = 0;
 		var l = 0;
@@ -85,12 +85,12 @@ function compared_heap(){
 					}
 					other = ranks[curr.rank];
 					ranks[curr.rank] = undefined;*/
-					if(!ranks.has(curr.rank)){
-						ranks.set(curr.rank, curr);
+					if(curr.rank in ranks){
+						ranks[curr.rank] = curr;
 						break;
 					}
-					other = ranks.get(curr.rank);
-					ranks.delete(curr.rank);
+					other = ranks[curr.rank];
+					delete ranks[curr.rank];
 					
 					if(curr.p < other.p){
 						min = curr;
