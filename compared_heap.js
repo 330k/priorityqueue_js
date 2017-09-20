@@ -42,7 +42,7 @@ function compared_heap(d){
 	var dequeue = function(){
 		var data = _data;
 		var size = _size - 1;
-		var result = data[0].v;
+		var result = null;
 		var i = 0;
 		var c = 1;
 		var p0 = 0.0;
@@ -53,38 +53,43 @@ function compared_heap(d){
 		var jmax = 0;
 		var ret = null;
 		
-		data[0] = data[size];
-		data.pop();
-		
-		while(c < size){
-			p0 = data[i].p;
-			pmax = data[c].p;
-			cmax = c;
+		if(_size){
+			result = data[0].v;
+			data[0] = data[size];
+			data.pop();
 			
-			jmax = c + _d;
-			if(jmax > size){
-				jmax = size;
-			}
-			for(j = c + 1; j < jmax; j++){
-				pret = data[j].p;
-				if(pmax < pret){
-					pmax = pret;
-					cmax = j;
+			while(c < size){
+				p0 = data[i].p;
+				pmax = data[c].p;
+				cmax = c;
+				
+				jmax = c + _d;
+				if(jmax > size){
+					jmax = size;
 				}
+				for(j = c + 1; j < jmax; j++){
+					pret = data[j].p;
+					if(pmax < pret){
+						pmax = pret;
+						cmax = j;
+					}
+				}
+				if(p0 < pmax){
+					ret = data[i];
+					data[i] = data[cmax];
+					data[cmax] = ret;
+				}else{
+					break;
+				}
+				i = cmax;
+				c = i * _d + 1;
 			}
-			if(p0 < pmax){
-				ret = data[i];
-				data[i] = data[cmax];
-				data[cmax] = ret;
-			}else{
-				break;
-			}
-			i = cmax;
-			c = i * _d + 1;
+			
+			_size = size;
+			return result;
+		}else{
+			return (void 0);
 		}
-		
-		_size = size;
-		return result;
 	};
 	var top = function(){
 		return _data[0].v;
