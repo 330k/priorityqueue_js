@@ -30,7 +30,6 @@ function compared_heap(d){
 		
 		return i;
 	};
-	
 	var enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
