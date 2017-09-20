@@ -110,8 +110,8 @@ onmessage = function(e) {
 importScripts('https://330k.github.io/priorityqueue_js/mt.js');
 importScripts('https://330k.github.io/priorityqueue_js/binary_heap.js');
 importScripts('https://330k.github.io/priorityqueue_js/d_ary_heap.js');
-importScripts('https://330k.github.io/priorityqueue_js/leftist_heap.js');
-importScripts('https://330k.github.io/priorityqueue_js/leftist_heap.js');
+importScripts('https://330k.github.io/priorityqueue_js/skew_heap.js');
+importScripts('https://330k.github.io/priorityqueue_js/skew_heap.js');
 importScripts('https://330k.github.io/priorityqueue_js/skew_heap.js');
 
 importScripts('https://330k.github.io/priorityqueue_js/compared_heap.js');
@@ -186,13 +186,13 @@ function startBenchmark(){
 		document.getElementById('result').innerHTML = buf.join('');
 	};
 
-	worker.postMessage({n:  10000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n:  20000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n:  50000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n: 100000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n: 200000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n: 500000,target:['binary_heap','compared_heap','leftist_heap']});
-	worker.postMessage({n:1000000,target:['binary_heap','compared_heap','leftist_heap']});
+	worker.postMessage({n:  10000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n:  20000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n:  50000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n: 100000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n: 200000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n: 500000,target:['binary_heap','compared_heap','skew_heap']});
+	worker.postMessage({n:1000000,target:['binary_heap','compared_heap','skew_heap']});
 	//worker.postMessage({n: 500002,target:['binary_heap','d_ary_heap','fibonacci_heap']});
 	//worker.postMessage({n: 500004,target:['binary_heap','d_ary_heap','fibonacci_heap']});
 	//worker.postMessage({n: 500006,target:['binary_heap','d_ary_heap','fibonacci_heap']});

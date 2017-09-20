@@ -5,13 +5,14 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-function compared_heap(d){
+function compared_heap(){
 	"use strict";
 	var _root = null;
 	var _size = 0;
+	
 	var _merge = function(i, j){
-		var ret = null;
-		
+		var ret;
+
 		if(i === null) return j;
 		if(j === null) return i;
 		
@@ -21,37 +22,29 @@ function compared_heap(d){
 			j = ret;
 		}
 		i.right = _merge(i.right, j);
-		if((i.left === null) || (i.left.s < i.right.s)){
-			ret = i.right;
-			i.right = i.left;
-			i.left = ret;
-		}
-		i.s = ((i.right === null) ? 0 : i.right.s) + 1;
+		ret = i.right;
+		i.right = i.left;
+		i.left = ret;
 		
 		return i;
 	};
+	
 	var enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
 			v: value,
 			left: null,
-			right: null,
-			s: 1
+			right: null
 		});
-		_size = _size + 1;
+		_size++;
 	};
 	var dequeue = function(){
-		var result = null;
+		var result = _root.v;
 		
-		if(_size){
-			result = _root.v;
-			_root = _merge(_root.left, _root.right);
-			_size = _size - 1;
-			
-			return result;
-		}else{
-			return (void 0);
-		}
+		_root = _merge(_root.left, _root.right);
+		_size--;
+		
+		return result;
 	};
 	var top = function(){
 		return _root.v;
