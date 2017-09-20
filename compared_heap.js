@@ -27,9 +27,9 @@ function compared_heap(d){
 	};
 	var _mergeList = function (s){
 		var n = null;
-		var a;
-		var b;
-		var j;
+		var a = null;
+		var b = null;
+		var j = null;
 		
 		while(s !== null){
 			a = s;
@@ -60,14 +60,20 @@ function compared_heap(d){
 			next: null,
 			head: null
 		});
-		_size++;
+		_size = _size + 1;
 	};
 	var dequeue = function(){
-		var result = _root.v;
-		_root = _mergeList(_root.head);
-		_size--;
+		var result = null;
+
+		if(_size){
+			result = _root.v;
+			_root = _mergeList(_root.head);
+			_size = _size - 1;
 		
-		return result;
+			return result;
+		}else{
+			return (void 0);
+		}
 	};
 	var top = function(){
 		return _root.v;
