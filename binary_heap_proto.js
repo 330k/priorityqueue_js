@@ -39,7 +39,7 @@ function binary_heap_proto(){
 	var dequeue = function(){
 		var data = _data;
 		var size = _size - 1;
-		var result = data[0].v;
+		var result = null;
 		var i = 0;
 		var c1 = 1;	// left child
 		var c2 = 2;	// right child
@@ -48,45 +48,50 @@ function binary_heap_proto(){
 		var p2 = 0.0;
 		var ret = null;
 		
-		data[0] = data[size];
-		data.pop();
-		
-		while(c1 < size){
-			if(c2 < size){
-				p0 = data[i].p;
-				p1 = data[c1].p;
-				p2 = data[c2].p;
+		if(_size){
+			result = data[0].v;
+			data[0] = data[size];
+			data.pop();
 			
-				if((p1 < p2) && (p0 < p2)){
-					ret = data[i];
-					data[i] = data[c2];
-					data[c2] = ret;
-					i = c2;
-				}else if(p0 < p1){
-					ret = data[i];
-					data[i] = data[c1];
-					data[c1] = ret;
-					i = c1;
+			while(c1 < size){
+				if(c2 < size){
+					p0 = data[i].p;
+					p1 = data[c1].p;
+					p2 = data[c2].p;
+				
+					if((p1 < p2) && (p0 < p2)){
+						ret = data[i];
+						data[i] = data[c2];
+						data[c2] = ret;
+						i = c2;
+					}else if(p0 < p1){
+						ret = data[i];
+						data[i] = data[c1];
+						data[c1] = ret;
+						i = c1;
+					}else{
+						break;
+					}
+					c1 = (i << 1) + 1;
+					c2 = (i << 1) + 2;
 				}else{
+					p0 = data[i].p;
+					p1 = data[c1].p;
+					
+					if(p0 < p1){
+						ret = data[i];
+						data[i] = data[c1];
+						data[c1] = ret;
+					}
 					break;
 				}
-				c1 = (i << 1) + 1;
-				c2 = (i << 1) + 2;
-			}else{
-				p0 = data[i].p;
-				p1 = data[c1].p;
-				
-				if(p0 < p1){
-					ret = data[i];
-					data[i] = data[c1];
-					data[c1] = ret;
-				}
-				break;
 			}
+			
+			_size = size;
+			return result;
+		}else{
+			return undefined;
 		}
-		
-		_size = size;
-		return result;
 	};
 	var top = function(){
 		return _data[0].v;
