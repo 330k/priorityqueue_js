@@ -34,11 +34,11 @@ function binary_heap_proto(){
 		}else{
 			data.push({p: priority, v: value});
 		}
-		_size = (_size + 1) | 0;
+		_size = _size + 1;
 	};
 	var dequeue = function(){
 		var data = _data;
-		var size = (_size - 1) | 0;
+		var size = _size - 1;
 		var result = data[0].v;
 		var i = 0;
 		var c1 = 1;	// left child
@@ -70,8 +70,8 @@ function binary_heap_proto(){
 				}else{
 					break;
 				}
-				c1 = ((i << 1) + 1) | 0;
-				c2 = ((i << 1) + 2) | 0;
+				c1 = (i << 1) + 1;
+				c2 = (i << 1) + 2;
 			}else{
 				p0 = data[i].p;
 				p1 = data[c1].p;
