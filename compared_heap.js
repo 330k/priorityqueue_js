@@ -14,13 +14,12 @@ function compared_heap(d){
 
 	var enqueue = function(priority, value){
 		var data = _data;
-		var ret;
-		var i;
-		var p;
+		var ret = null;
+		var i = 0;
+		var p = 0;
 		
 		if(_size){
 			data.push({p: priority, v: value});
-			_size++;
 			i = _size - 1;
 			p = ~~((i - 1) * _dinv);
 			while(p >= 0){
@@ -37,26 +36,25 @@ function compared_heap(d){
 			}
 		}else{
 			data.push({p: priority, v: value});
-			_size++;
 		}
+		_size = _size + 1;
 	};
 	var dequeue = function(){
 		var data = _data;
-		var size = _size;
+		var size = _size - 1;
 		var result = data[0].v;
 		var i = 0;
 		var c = 1;
-		var p0;
-		var pmax;
-		var pret;
-		var cmax;
-		var j;
-		var jmax;
-		var ret;
+		var p0 = 0.0;
+		var pmax = 0.0;
+		var pret = 0.0;
+		var cmax = 0;
+		var j = 0;
+		var jmax = 0;
+		var ret = null;
 		
-		data[0] = data[size - 1];
+		data[0] = data[size];
 		data.pop();
-		size--;
 		
 		while(c < size){
 			p0 = data[i].p;
