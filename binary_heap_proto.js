@@ -96,7 +96,7 @@ function binary_heap_proto(){
 	};
 	
 	return {
-		name: 'Binary Heap',
+		name: 'Binary Heap 2',
 		enqueue: enqueue,
 		dequeue: dequeue,
 		top: top,
