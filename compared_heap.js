@@ -66,6 +66,7 @@ function compared_heap(){
 			top = _mergeList(top, result.firstchild);
 			
 			if(top === null){
+				_top = top;
 				return result.v;
 			}
 
