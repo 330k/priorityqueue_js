@@ -63,10 +63,6 @@ function compared_heap(){
 			
 			_top = _mergeList(_top, result.firstchild);
 			
-			if(_top === null){
-				return result.v;
-			}
-			
 			curr = _top;
 			do{
 				roots.push(curr);
