@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-function binary_heap(){
+function binary_heap_proto(){
 	"use strict";
 	var _data = [];
 	var _size = 0;
