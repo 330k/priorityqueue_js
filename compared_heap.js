@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-function compared_heap(){
+function compared_heap(d){
 	"use strict";
 	var _d = d || 4;
 	var _data = [];
