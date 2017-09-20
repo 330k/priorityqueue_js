@@ -43,7 +43,7 @@ function compared_heap(){
 	var dequeue = function(){
 		var top = _top;
 		var result = top;
-		var ranks = [];
+		var ranks = {};//[];
 		var roots = [];
 		var i = 0;
 		var l = 0;
@@ -90,7 +90,7 @@ function compared_heap(){
 						break;
 					}
 					other = ranks[curr.rank];
-					ranks.splice(curr.rank, 1);
+					delete ranks[curr.rank];
 					
 					if(curr.p < other.p){
 						min = curr;
