@@ -186,13 +186,13 @@ function startBenchmark(){
 		document.getElementById('result').innerHTML = buf.join('');
 	};
 
-	worker.postMessage({n:  10000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n:  20000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n:  50000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n: 100000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n: 200000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n: 500000,target:['binary_heap','compared_heap','d_ary_heap']});
-	worker.postMessage({n:1000000,target:['binary_heap','compared_heap','d_ary_heap']});
+	worker.postMessage({n:  10000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n:  20000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n:  50000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n: 100000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n: 200000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n: 500000,target:['binary_heap','compared_heap','pairing_heap']});
+	worker.postMessage({n:1000000,target:['binary_heap','compared_heap','pairing_heap']});
 	//worker.postMessage({n: 500002,target:['binary_heap','d_ary_heap','fibonacci_heap']});
 	//worker.postMessage({n: 500004,target:['binary_heap','d_ary_heap','fibonacci_heap']});
 	//worker.postMessage({n: 500006,target:['binary_heap','d_ary_heap','fibonacci_heap']});
