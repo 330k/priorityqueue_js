@@ -41,7 +41,8 @@ function compared_heap(){
 		_size = _size + 1;
 	};
 	var dequeue = function(){
-		var result = _top;
+		var top = _top;
+		var result = top;
 		var ranks = [];
 		var roots = [];
 		var curr;
@@ -53,21 +54,25 @@ function compared_heap(){
 		if(_size){
 			_size = _size - 1;
 			
-			if(_top.next === _top){
-				_top = null;
+			if(top.next === top){
+				top = null;
 			}else{
-				_top.prev.next = _top.next;
-				_top.next.prev = _top.prev;
-				_top = _top.next;
+				top.prev.next = top.next;
+				top.next.prev = top.prev;
+				top = top.next;
 			}
 			
-			_top = _mergeList(_top, result.firstchild);
+			top = _mergeList(top, result.firstchild);
 			
-			curr = _top;
+			if(top === null){
+				return result.v;
+			}
+
+			curr = top;
 			do{
 				roots.push(curr);
 				curr = curr.next;
-			} while(curr !== _top);
+			} while(curr !== top);
 			
 			for(i = 0; i < roots.length; i++){
 				curr = roots[i];
@@ -98,11 +103,12 @@ function compared_heap(){
 					
 					curr = max;
 				}
-				if(curr.p > _top.p){
-					_top = curr;
+				if(curr.p > top.p){
+					top = curr;
 				}
 			}
 			
+			_top = top;
 			return result.v;
 		}else{
 			return (void 0);
