@@ -1,4 +1,4 @@
-/* Binary Heap
+/* Heap for Optimization
  * Copyright 2015 330k
  * https://github.com/330k/
  *
@@ -20,7 +20,7 @@ function compared_heap(d){
 		
 		if(_size){
 			data.push({p: priority, v: value});
-			i = _size - 1;
+			i = _size;
 			p = ~~((i - 1) * _dinv);
 			while(p >= 0){
 				if(data[p].p < data[i].p){
