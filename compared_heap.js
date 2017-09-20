@@ -10,15 +10,15 @@ function compared_heap(){
 	var _top = null;
 	var _size = 0;
 	var _mergeList = function(i, j){
-		var iNext;
+		var ret = null;
 
 		if(i === null) return j;
 		if(j === null) return i;
 		
-		iNext = i.next;
+		ret = i.next;
 		i.next = j.next;
 		i.next.prev = i;
-		j.next = iNext;
+		j.next = ret;
 		j.next.prev = j;
 
 		return i.p > j.p ? i : j;
@@ -38,7 +38,7 @@ function compared_heap(){
 		newnode.prev = newnode;
 		
 		_top = _mergeList(_top, newnode);
-		_size++;
+		_size = _size + 1;
 	};
 	var dequeue = function(){
 		var result = _top;
@@ -50,63 +50,67 @@ function compared_heap(){
 		var min;
 		var max;
 
-		_size--;
-		
-		if(_top.next === _top){
-			_top = null;
-		}else{
-			_top.prev.next = _top.next;
-			_top.next.prev = _top.prev;
-			_top = _top.next;
-		}
-		
-		_top = _mergeList(_top, result.firstchild);
-		
-		if(_top === null){
+		if(_size){
+			_size = _size - 1;
+			
+			if(_top.next === _top){
+				_top = null;
+			}else{
+				_top.prev.next = _top.next;
+				_top.next.prev = _top.prev;
+				_top = _top.next;
+			}
+			
+			_top = _mergeList(_top, result.firstchild);
+			
+			if(_top === null){
+				return result.v;
+			}
+			
+			curr = _top;
+			do{
+				roots.push(curr);
+				curr = curr.next;
+			} while(curr !== _top);
+			
+			for(i = 0; i < roots.length; i++){
+				curr = roots[i];
+				while(true){
+					if(ranks[curr.rank] === undefined){
+						ranks[curr.rank] = curr;
+						break;
+					}
+					other = ranks[curr.rank];
+					ranks[curr.rank] = undefined;
+					
+					if(curr.p < other.p){
+						min = curr;
+						max = other;
+					}else{
+						min = other;
+						max = curr;
+					}
+					
+					min.next.prev = min.prev;
+					min.prev.next = min.next;
+					
+					min.next = min.prev = min;
+					max.firstchild = _mergeList(max.firstchild, min);
+					
+					min.marked = false;
+					max.rank = max.rank + 1;
+					
+					curr = max;
+				}
+				if(curr.p > _top.p){
+					_top = curr;
+				}
+			}
+			
 			return result.v;
+		}else{
+			return (void 0);
 		}
-		
-		curr = _top;
-		do{
-			roots.push(curr);
-			curr = curr.next;
-		} while(curr !== _top);
-		
-		for(i = 0; i < roots.length; i++){
-			curr = roots[i];
-			while(true){
-				if(ranks[curr.rank] === undefined){
-					ranks[curr.rank] = curr;
-					break;
-				}
-				other = ranks[curr.rank];
-				ranks[curr.rank] = undefined;
-				
-				if(curr.p < other.p){
-					min = curr;
-					max = other;
-				}else{
-					min = other;
-					max = curr;
-				}
-				
-				min.next.prev = min.prev;
-				min.prev.next = min.next;
-				
-				min.next = min.prev = min;
-				max.firstchild = _mergeList(max.firstchild, min);
-				
-				min.marked = false;
-				max.rank++;
-				
-				curr = max;
-			}
-			if(curr.p > _top.p){
-				_top = curr;
-			}
-		}
-		
-		return result.v;
 	};
 	var top = function(){
 		return _top.v;
