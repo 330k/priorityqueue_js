@@ -10,7 +10,7 @@ function compared_heap(d){
 	var _root = null;
 	var _size = 0;
 	var _merge = function(i, j){
-		var ret;
+		var ret = null;
 		
 		if(i === null) return j;
 		if(j === null) return i;
@@ -39,15 +39,20 @@ function compared_heap(d){
 			right: null,
 			s: 1
 		});
-		_size++;
+		_size = _size + 1;
 	};
 	var dequeue = function(){
-		var result = _root.v;
+		var result = null;
 		
-		_root = _merge(_root.left, _root.right);
-		_size--;
-		
-		return result;
+		if(_size){
+			result = _root.v;
+			_root = _merge(_root.left, _root.right);
+			_size = _size - 1;
+			
+			return result;
+		}else{
+			return (void 0);
+		}
 	};
 	var top = function(){
 		return _root.v;
