@@ -70,8 +70,8 @@ function binary_heap_proto(){
 				}else{
 					break;
 				}
-				c1 = (i * 2 + 1) | 0;
-				c2 = (i * 2 + 2) | 0;
+				c1 = ((i << 1) + 1) | 0;
+				c2 = ((i << 1) + 2) | 0;
 			}else{
 				p0 = data[i].p;
 				p1 = data[c1].p;
