@@ -82,12 +82,13 @@ function compared_heap(){
 				while(true){
 					//if((ranks[curr.rank] === null) || (ranks[curr.rank] === undefined)){
 					//if(ranks[curr.rank] == null){
-					if(!ranks[curr.rank]){
+					//if(!ranks[curr.rank]){
+					if(ranks[curr.rank] === undefined){
 						ranks[curr.rank] = curr;
 						break;
 					}
 					other = ranks[curr.rank];
-					ranks[curr.rank] = null;
+					ranks[curr.rank] = undefined;
 					
 					if(curr.p < other.p){
 						min = curr;
