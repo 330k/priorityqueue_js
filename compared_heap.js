@@ -76,11 +76,11 @@ function compared_heap(){
 				curr = curr.next;
 			} while(curr !== top);
 			
-			for(i = 0; i < 45; i++) ranks[i] = null;
+			ranks.length = 45;
 			for(i = 0, l = roots.length; i < l; i++){
 				curr = roots[i];
 				while(true){
-					if(ranks[curr.rank] === null){
+					if((ranks[curr.rank] === null) || (ranks[curr.rank] === undefined)){
 						ranks[curr.rank] = curr;
 						break;
 					}
