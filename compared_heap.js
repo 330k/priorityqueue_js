@@ -76,16 +76,16 @@ function compared_heap(){
 				curr = curr.next;
 			} while(curr !== top);
 			
-			ranks.length = 45;
+			for(i = 0; i < 45; i++) ranks[i] = null;
 			for(i = 0, l = roots.length; i < l; i++){
 				curr = roots[i];
 				while(true){
-					if(ranks[curr.rank] === undefined){
+					if(ranks[curr.rank] === null){
 						ranks[curr.rank] = curr;
 						break;
 					}
 					other = ranks[curr.rank];
-					ranks[curr.rank] = undefined;
+					ranks[curr.rank] = null;
 					
 					if(curr.p < other.p){
 						min = curr;
