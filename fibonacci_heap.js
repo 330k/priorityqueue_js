@@ -76,6 +76,7 @@ function fibonacci_heap(){
 				curr = curr.next;
 			} while(curr !== top);
 			
+			ranks.length = 45; // 45 derived from https://github.com/w01fe/fibonacci-heap/blob/master/src/jvm/w01fe/fibonacci_heap/FibonacciHeap.java
 			for(i = 0, l = roots.length; i < l; i++){
 				curr = roots[i];
 				while(true){
