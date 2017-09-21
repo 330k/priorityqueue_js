@@ -27,8 +27,6 @@ td	{ text-align: right; }
 <body>
 <h1>Priority Queue JavaScript Implementation Benchmark</h1>
 <button onclick="startBenchmark()">Start Benchmark</button>
-<button onclick="stopBenchmark()">Stop Benchmark</button>
-
 <span>(unit: millisecond)</span>
 <div id="result"></div>
 <script type="text/javascript">
@@ -128,20 +126,10 @@ function callback(data){
 	cols[data.name] = null;
 
 	var buf = [];
+
+	buf.push('<p>Sequential (Heap Sort)</p>');
 	buf.push('<table>');
-	buf.push('<tr>');
-	buf.push('<tr><th></th>');
-	var count = 0;
-	for(var name in cols){
-		count++;
-	}
-	buf.push('<th colspan="' + count + '">Sequential (Sort)</th>');
-	buf.push('<th colspan="' + count + '">2-enqueue 1-dequeue</th>');
-	buf.push('</tr>');
 	buf.push('<tr><th>n</th>');
-	for(var name in cols){
-		buf.push('<th>' + name + '</th>');
-	}
 	for(var name in cols){
 		buf.push('<th>' + name + '</th>');
 	}
@@ -156,6 +144,20 @@ function callback(data){
 				buf.push('<td></td>');
 			}
 		}
+		buf.push('</tr>');
+	}
+	buf.push('</table>');
+
+	buf.push('<p>2-enqueue 1-dequeue</p>');
+	buf.push('<table>');
+	buf.push('<tr><th>n</th>');
+	for(var name in cols){
+		buf.push('<th>' + name + '</th>');
+	}
+	buf.push('</tr>');
+	for(var n in result){
+		buf.push('<tr>');
+		buf.push('<td>' + n + '</td>');
 		for(var name in cols){
 			try{
 				buf.push('<td>' + result[n][name].pseudodp + '</td>');
