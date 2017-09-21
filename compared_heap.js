@@ -44,9 +44,8 @@ function compared_heap(){
 		var top = _top;
 		var result = top;
 		var ranks = [];
-		var roots = [];
-		var i = 0;
-		var l = 0;
+		var root = null;
+		var ret = null;
 		var curr = null;
 		var other = null;
 		var min = null;
@@ -72,12 +71,9 @@ function compared_heap(){
 
 			curr = top;
 			do{
-				roots.push(curr);
-				curr = curr.next;
-			} while(curr !== top);
-			
-			for(i = 0, l = roots.length; i < l; i++){
-				curr = roots[i];
+				//curr = root;
+				ret = curr.next;
+
 				while(ranks[curr.rank] !== undefined){
 					other = ranks[curr.rank];
 					ranks[curr.rank] = undefined;
@@ -107,7 +103,8 @@ function compared_heap(){
 					top = curr;
 				}
 
-			}
+				curr = ret;
+			}while(curr !== top);
 			
 			_top = top;
 			return result.v;
