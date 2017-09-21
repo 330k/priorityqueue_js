@@ -28,7 +28,7 @@ function compared_heap(){
 		var newnode = {
 			p: priority,
 			v: value,
-			marked: false,
+			//marked: false,
 			rank: 0,
 			next: null,
 			prev: null,
@@ -101,7 +101,7 @@ function compared_heap(){
 					min.next = min.prev = min;
 					max.firstchild = _mergeList(max.firstchild, min);
 					
-					min.marked = false;
+					//min.marked = false;
 					max.rank = max.rank + 1;
 					
 					curr = max;
