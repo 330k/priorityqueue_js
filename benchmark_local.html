@@ -19,8 +19,9 @@ td	{ text-align: right; }
 <script type="text/javascript" src="binary_heap.js"></script>
 <script type="text/javascript" src="d_ary_heap.js"></script>
 <script type="text/javascript" src="fibonacci_heap.js"></script>
-<script type="text/javascript" src="fibonacci_heap.js"></script>
-<script type="text/javascript" src="fibonacci_heap.js"></script>
+<script type="text/javascript" src="leftist_heap.js"></script>
+<script type="text/javascript" src="pairing_heap.js"></script>
+<script type="text/javascript" src="skew_heap.js"></script>
 <script type="text/javascript" src="compared_heap.js"></script>
 </head>
 <body>
@@ -170,22 +171,35 @@ function callback(data){
 };
 
 function startBenchmark(){
-	var tests = [];
+	var conds = [];
+	var heaps = [
+		'binary_heap',
+		'd_ary_heap',
+		'fibonacci_heap',
+		'leftist_heap',
+		'pairing_heap',
+		'skew_heap'
+	];
+	var num = [
+		10000,
+		20000,
+		50000,
+		100000,
+		200000,
+		500000
+	];
 	var i = 0;
 	result = {};
 	cols = {};
 	
-	tests.push({n:  10000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n:  20000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n:  50000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n: 100000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n: 200000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n: 500000,target:['binary_heap','compared_heap','fibonacci_heap']});
-	tests.push({n:1000000,target:['binary_heap','compared_heap','fibonacci_heap']});
+	for(i = 0; i < num.length; i++){
+		conds.push({n: num[i], target: heaps});
+	}
 
+	i = 0;
 	setTimeout(function a(){
-		if(i < tests.length){
-			benchmark(tests[i]);
+		if(i < conds.length){
+			benchmark(conds[i]);
 			i++;
 
 			setTimeout(a, 0);
