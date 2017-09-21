@@ -81,7 +81,7 @@ function compared_heap(){
 				curr = roots[i];
 				while(true){
 					//if((ranks[curr.rank] === null) || (ranks[curr.rank] === undefined)){
-					if(rans[cur.rank] == null){
+					if(ranks[cur.rank] == null){
 						ranks[curr.rank] = curr;
 						break;
 					}
