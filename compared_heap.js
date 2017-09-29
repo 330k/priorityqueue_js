@@ -5,121 +5,93 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-function compared_heap(){
+function compared_heap(d){
 	"use strict";
-	var _top = null;
+	var _d = d || 4;
+	var _data = [];
 	var _size = 0;
-	var _mergeList = function(i, j){
-		var ret = null;
-
-		if(i === null) return j;
-		if(j === null) return i;
-		
-		ret = i.next;
-		i.next = j.next;
-		i.next.prev = i;
-		j.next = ret;
-		j.next.prev = j;
-
-		return i.p > j.p ? i : j;
-	};
-	
+	var _dinv = 1 / _d;
 	var enqueue = function(priority, value){
-		var newnode = {
-			p: priority,
-			v: value,
-			//marked: false,
-			rank: 0,
-			next: null,
-			prev: null,
-			firstchild: null
-		};
-		newnode.next = newnode;
-		newnode.prev = newnode;
+		var data = _data;
+		var ret = null;
+		var i = 0;
+		var p = 0;
 		
-		_top = _mergeList(_top, newnode);
+		if(_size){
+			data[_size] = {p: priority, v: value};
+			i = _size;
+			p = ~~((i - 1) * _dinv);
+			while(p >= 0){
+				if(data[p].p < data[i].p){
+					ret = data[i];
+					data[i] = data[p];
+					data[p] = ret;
+				
+					i = p;
+					p = ~~((i - 1) * _dinv);
+				}else{
+					break;
+				}
+			}
+		}else{
+			data[0] = {p: priority, v: value};
+		}
 		_size = _size + 1;
 	};
 	var dequeue = function(){
-		var top = _top;
-		var result = top;
-		var ranks = [];
-		var roots = [];
+		var data = _data;
+		var size = _size - 1;
+		var result = null;
 		var i = 0;
-		var l = 0;
-		var curr = null;
-		var other = null;
-		var min = null;
-		var max = null;
-
+		var c = 1;
+		var p0 = 0.0;
+		var pmax = 0.0;
+		var pret = 0.0;
+		var cmax = 0;
+		var j = 0;
+		var jmax = 0;
+		var ret = null;
+		
 		if(_size){
-			_size = _size - 1;
+			result = data[0].v;
+			data[0] = data[size];
+			data.pop();
 			
-			if(top.next === top){
-				top = null;
-			}else{
-				top.prev.next = top.next;
-				top.next.prev = top.prev;
-				top = top.next;
-			}
-			
-			top = _mergeList(top, result.firstchild);
-			
-			if(top === null){
-				_top = top;
-				return result.v;
-			}
-
-			curr = top;
-			do{
-				roots.push(curr);
-				curr = curr.next;
-			} while(curr !== top);
-			
-			ranks.length = 45;
-			for(i = 0, l = roots.length; i < l; i++){
-				curr = roots[i];
-				while(true){
-					if(ranks[curr.rank] === undefined){
-						ranks[curr.rank] = curr;
-						break;
-					}
-					other = ranks[curr.rank];
-					ranks[curr.rank] = undefined;
-					
-					if(curr.p < other.p){
-						min = curr;
-						max = other;
-					}else{
-						min = other;
-						max = curr;
-					}
-					
-					min.next.prev = min.prev;
-					min.prev.next = min.next;
-					
-					min.next = min.prev = min;
-					max.firstchild = _mergeList(max.firstchild, min);
-					
-					//min.marked = false;
-					max.rank = max.rank + 1;
-					
-					curr = max;
+			while(c < size){
+				p0 = data[i].p;
+				pmax = data[c].p;
+				cmax = c;
+				
+				jmax = c + _d;
+				if(jmax > size){
+					jmax = size;
 				}
-				if(curr.p > top.p){
-					top = curr;
+				for(j = c + 1; j < jmax; j++){
+					pret = data[j].p;
+					if(pmax < pret){
+						pmax = pret;
+						cmax = j;
+					}
 				}
-
+				if(p0 < pmax){
+					ret = data[i];
+					data[i] = data[cmax];
+					data[cmax] = ret;
+				}else{
+					break;
+				}
+				i = cmax;
+				c = i * _d + 1;
 			}
 			
-			_top = top;
-			return result.v;
+			_size = size;
+			return result;
 		}else{
 			return (void 0);
 		}
 	};
 	var top = function(){
-		return _top.v;
+		return _data[0].v;
 	};
 	var size = function(){
 		return _size;
