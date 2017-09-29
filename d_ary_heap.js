@@ -18,7 +18,7 @@ function d_ary_heap(d){
 		var p = 0;
 		
 		if(_size){
-			data[_size] = {p: priority, v: value};
+			data.push({p: priority, v: value});
 			i = _size;
 			p = ~~((i - 1) * _dinv);
 			while(p >= 0){
@@ -34,7 +34,7 @@ function d_ary_heap(d){
 				}
 			}
 		}else{
-			data[0] = {p: priority, v: value};
+			data.push({p: priority, v: value});
 		}
 		_size = _size + 1;
 	};

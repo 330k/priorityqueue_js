@@ -16,7 +16,7 @@ function binary_heap(){
 		var ret = null;
 		
 		if(_size){
-			data[_size] = {p: priority, v: value};
+			data.push({p: priority, v: value});
 			i = _size;
 			p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
 			while(p >= 0){
@@ -32,7 +32,7 @@ function binary_heap(){
 				}
 			}
 		}else{
-			data[0] = {p: priority, v: value};
+			data.push({p: priority, v: value});
 		}
 		_size = _size + 1;
 	};
