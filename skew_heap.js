@@ -6,17 +6,14 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function skew_heap(){
-	"use strict";
-	var _root = null;
-	var _size = 0;
-	var _merge = function(i, j){
-		var ret = null;
-
+	let _root = null;
+	let _size = 0;
+	const _merge = function(i, j){
 		if(i === null) return j;
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			ret = i;
+			let ret = i;
 			i = j;
 			j = ret;
 		}
@@ -27,7 +24,7 @@ function skew_heap(){
 		
 		return i;
 	};
-	var enqueue = function(priority, value){
+	const enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
 			v: value,
@@ -36,11 +33,9 @@ function skew_heap(){
 		});
 		_size = _size + 1;
 	};
-	var dequeue = function(){
-		var result = null;
-		
+	const dequeue = function(){
 		if(_size){
-			result = _root.v;
+			let result = _root.v;
 			_root = _merge(_root.left, _root.right);
 			_size = _size - 1;
 			
@@ -49,10 +44,10 @@ function skew_heap(){
 			return (void 0);
 		}
 	};
-	var top = function(){
+	const top = function(){
 		return _root.v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	

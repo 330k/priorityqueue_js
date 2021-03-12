@@ -6,24 +6,20 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function d_ary_heap(d){
-	"use strict";
-	var _d = d || 4;
-	var _data = [];
-	var _size = 0;
-	var _dinv = 1 / _d;
-	var enqueue = function(priority, value){
-		var data = _data;
-		var ret = null;
-		var i = 0;
-		var p = 0;
+	const _d = d || 4;
+	const _data = [];
+	let _size = 0;
+	let _dinv = 1 / _d;
+	const enqueue = function(priority, value){
+		const data = _data;
 		
 		if(_size){
 			data.push({p: priority, v: value});
-			i = _size;
-			p = ~~((i - 1) * _dinv);
+			let i = _size;
+			let p = ~~((i - 1) * _dinv);
 			while(p >= 0){
 				if(data[p].p < data[i].p){
-					ret = data[i];
+					let ret = data[i];
 					data[i] = data[p];
 					data[p] = ret;
 				
@@ -38,43 +34,35 @@ function d_ary_heap(d){
 		}
 		_size = _size + 1;
 	};
-	var dequeue = function(){
-		var data = _data;
-		var size = _size - 1;
-		var result = null;
-		var i = 0;
-		var c = 1;
-		var p0 = 0.0;
-		var pmax = 0.0;
-		var pret = 0.0;
-		var cmax = 0;
-		var j = 0;
-		var jmax = 0;
-		var ret = null;
+	const dequeue = function(){
+		const data = _data;
+		const size = _size - 1;
+		let i = 0;
+		let c = 1;
 		
 		if(_size){
-			result = data[0].v;
+			let result = data[0].v;
 			data[0] = data[size];
 			data.pop();
 			
 			while(c < size){
-				p0 = data[i].p;
-				pmax = data[c].p;
-				cmax = c;
+				let p0 = data[i].p;
+				let pmax = data[c].p;
+				let cmax = c;
 				
-				jmax = c + _d;
+				let jmax = c + _d;
 				if(jmax > size){
 					jmax = size;
 				}
 				for(j = c + 1; j < jmax; j++){
-					pret = data[j].p;
+					let pret = data[j].p;
 					if(pmax < pret){
 						pmax = pret;
 						cmax = j;
 					}
 				}
 				if(p0 < pmax){
-					ret = data[i];
+					let ret = data[i];
 					data[i] = data[cmax];
 					data[cmax] = ret;
 				}else{
@@ -90,10 +78,10 @@ function d_ary_heap(d){
 			return (void 0);
 		}
 	};
-	var top = function(){
+	const top = function(){
 		return _data[0].v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	

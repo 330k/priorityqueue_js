@@ -6,17 +6,14 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function pairing_heap(){
-	"use strict";
-	var _root = null;
-	var _size = 0;
-	var _merge = function (i, j){
-		var ret = null;
-
+	let _root = null;
+	let _size = 0;
+	const _merge = function (i, j){
 		if(i === null) return j;
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			ret = i;
+			let ret = i;
 			i = j;
 			j = ret;
 		}
@@ -25,15 +22,12 @@ function pairing_heap(){
 		
 		return i;
 	};
-	var _mergeList = function (s){
-		var n = null;
-		var a = null;
-		var b = null;
-		var j = null;
+	const _mergeList = function (s){
+		let n = null;
 		
 		while(s !== null){
-			a = s;
-			b = null;
+			let a = s;
+			let b = null;
 			s = s.next;
 			a.next = null;
 			if(s !== null){
@@ -46,14 +40,14 @@ function pairing_heap(){
 			n = a;
 		}
 		while(n !== null){
-			j = n;
+			let j = n;
 			n = n.next;
 			s = _merge(j, s);
 		}
 		return s;
 	};
 	
-	var enqueue = function(priority, value){
+	const enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
 			v: value,
@@ -62,11 +56,9 @@ function pairing_heap(){
 		});
 		_size = _size + 1;
 	};
-	var dequeue = function(){
-		var result = null;
-
+	const dequeue = function(){
 		if(_size){
-			result = _root.v;
+			let result = _root.v;
 			_root = _mergeList(_root.head);
 			_size = _size - 1;
 		
@@ -75,10 +67,10 @@ function pairing_heap(){
 			return (void 0);
 		}
 	};
-	var top = function(){
+	const top = function(){
 		return _root.v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	

@@ -6,22 +6,18 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function binary_heap(){
-	"use strict";
-	var _data = [];
-	var _size = 0;
-	var enqueue = function(priority, value){
-		var data = _data;
-		var i = 0;
-		var p = 0;
-		var ret = null;
+	const _data = [];
+	let _size = 0;
+	const enqueue = function(priority, value){
+		const data = _data;
 		
 		if(_size){
 			data.push({p: priority, v: value});
-			i = _size;
-			p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
+			let i = _size;
+			let p = (i - 1) >> 1;//Math.floor((i - 1) * 0.5);	// parent
 			while(p >= 0){
 				if(data[p].p < data[i].p){
-					ret = data[i];
+					let ret = data[i];
 					data[i] = data[p];
 					data[p] = ret;
 				
@@ -36,36 +32,31 @@ function binary_heap(){
 		}
 		_size = _size + 1;
 	};
-	var dequeue = function(){
-		var data = _data;
-		var size = _size - 1;
-		var result = null;
-		var i = 0;
-		var c1 = 1;	// left child
-		var c2 = 2;	// right child
-		var p0 = 0.0;
-		var p1 = 0.0;
-		var p2 = 0.0;
-		var ret = null;
+	const dequeue = function(){
+		const data = _data;
+		let size = _size - 1;
 		
 		if(_size){
-			result = data[0].v;
+			let result = data[0].v;
 			data[0] = data[size];
 			data.pop();
+			let i = 0;
+			let c1 = 1;	// left child
+			let c2 = 2;	// right child
 			
 			while(c1 < size){
 				if(c2 < size){
-					p0 = data[i].p;
-					p1 = data[c1].p;
-					p2 = data[c2].p;
+					let p0 = data[i].p;
+					let p1 = data[c1].p;
+					let p2 = data[c2].p;
 				
 					if((p1 < p2) && (p0 < p2)){
-						ret = data[i];
+						let ret = data[i];
 						data[i] = data[c2];
 						data[c2] = ret;
 						i = c2;
 					}else if(p0 < p1){
-						ret = data[i];
+						let ret = data[i];
 						data[i] = data[c1];
 						data[c1] = ret;
 						i = c1;
@@ -75,11 +66,11 @@ function binary_heap(){
 					c1 = (i << 1) + 1;
 					c2 = (i << 1) + 2;
 				}else{
-					p0 = data[i].p;
-					p1 = data[c1].p;
+					let p0 = data[i].p;
+					let p1 = data[c1].p;
 					
 					if(p0 < p1){
-						ret = data[i];
+						let ret = data[i];
 						data[i] = data[c1];
 						data[c1] = ret;
 					}
@@ -93,10 +84,10 @@ function binary_heap(){
 			return (void 0);
 		}
 	};
-	var top = function(){
+	const top = function(){
 		return _data[0].v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	

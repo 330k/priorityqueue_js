@@ -6,18 +6,15 @@
  * http://opensource.org/licenses/mit-license.php
  */
 function binomial_heap(){
-	"use strict";
-	var _root = null;
-	var _size = 0;
+	let _root = null;
+	let _size = 0;
 	
-	var _merge = function(i, j){
-		var ret;
-
+	const _merge = function(i, j){
 		if(i === null) return j;
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			ret = i;
+			let ret = i;
 			i = j;
 			j = ret;
 		}
@@ -29,7 +26,7 @@ function binomial_heap(){
 		return i;
 	};
 	
-	var enqueue = function(priority, value){
+	const enqueue = function(priority, value){
 		_root = _merge(_root, {
 			p: priority,
 			v: value,
@@ -38,18 +35,18 @@ function binomial_heap(){
 		});
 		_size++;
 	};
-	var dequeue = function(){
-		var result = _root.v;
+	const dequeue = function(){
+		let result = _root.v;
 		
 		_root = _merge(_root.left, _root.right);
 		_size--;
 		
 		return result;
 	};
-	var top = function(){
+	const top = function(){
 		return _root.v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	
