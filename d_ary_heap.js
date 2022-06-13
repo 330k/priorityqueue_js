@@ -56,7 +56,7 @@ function d_ary_heap(d){
 				if(jmax > size){
 					jmax = size;
 				}
-				for(j = c + 1; j < jmax; j++){
+				for(let j = c + 1; j < jmax; j++){
 					let pret = data[j].p;
 					if(pmax < pret){
 						pmax = pret;
