@@ -1,15 +1,17 @@
-/* d-ary Heap
- * Copyright 2015 330k
+/**
+ * d-ary Heap
+ * Copyright 2015-2022 330k
  * https://github.com/330k/
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 function d_ary_heap(d){
+  "use strict";
 	const _d = d || 4;
 	const _data = [];
 	let _size = 0;
-	let _dinv = 1 / _d;
+	const _dinv = 1 / _d;
 	const enqueue = function(priority, value){
 		const data = _data;
 		
@@ -19,7 +21,7 @@ function d_ary_heap(d){
 			let p = ~~((i - 1) * _dinv);
 			while(p >= 0){
 				if(data[p].p < data[i].p){
-					let ret = data[i];
+					const ret = data[i];
 					data[i] = data[p];
 					data[p] = ret;
 				
@@ -41,12 +43,12 @@ function d_ary_heap(d){
 		let c = 1;
 		
 		if(_size){
-			let result = data[0].v;
+			const result = data[0].v;
 			data[0] = data[size];
 			data.pop();
 			
 			while(c < size){
-				let p0 = data[i].p;
+				const p0 = data[i].p;
 				let pmax = data[c].p;
 				let cmax = c;
 				
@@ -86,7 +88,7 @@ function d_ary_heap(d){
 	};
 	
 	return {
-		name: 'd-ary Heap (d=' + _d + ')',
+		name: "d-ary Heap (d=" + _d + ")",
 		enqueue: enqueue,
 		dequeue: dequeue,
 		top: top,

@@ -1,11 +1,13 @@
-/* Pairing Heap
- * Copyright 2015 330k
+/**
+ * Pairing Heap
+ * Copyright 2015-2022 330k
  * https://github.com/330k/
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 function pairing_heap(){
+  "use strcit";
 	let _root = null;
 	let _size = 0;
 	const _merge = function (i, j){
@@ -13,7 +15,7 @@ function pairing_heap(){
 		if(j === null) return i;
 		
 		if(i.p < j.p){
-			let ret = i;
+			const ret = i;
 			i = j;
 			j = ret;
 		}
@@ -40,7 +42,7 @@ function pairing_heap(){
 			n = a;
 		}
 		while(n !== null){
-			let j = n;
+			const j = n;
 			n = n.next;
 			s = _merge(j, s);
 		}
@@ -58,7 +60,7 @@ function pairing_heap(){
 	};
 	const dequeue = function(){
 		if(_size){
-			let result = _root.v;
+			const result = _root.v;
 			_root = _mergeList(_root.head);
 			_size = _size - 1;
 		

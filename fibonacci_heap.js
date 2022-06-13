@@ -1,5 +1,6 @@
-/* Fibonacci Heap
- * Copyright 2015 330k
+/**
+ * Fibonacci Heap
+ * Copyright 2015-2022 330k
  * https://github.com/330k/
  *
  * This software is released under the MIT License.
@@ -7,15 +8,13 @@
  */
 function fibonacci_heap(){
 	"use strict";
-	var _top = null;
-	var _size = 0;
-	var _mergeList = function(i, j){
-		var ret = null;
-
+	let _top = null;
+	let _size = 0;
+	const _mergeList = function(i, j){
 		if(i === null) return j;
 		if(j === null) return i;
 		
-		ret = i.next;
+		let ret = i.next;
 		i.next = j.next;
 		i.next.prev = i;
 		j.next = ret;
@@ -24,8 +23,8 @@ function fibonacci_heap(){
 		return i.p > j.p ? i : j;
 	};
 	
-	var enqueue = function(priority, value){
-		var newnode = {
+	const enqueue = function(priority, value){
+		const newnode = {
 			p: priority,
 			v: value,
 			marked: false,
@@ -40,17 +39,15 @@ function fibonacci_heap(){
 		_top = _mergeList(_top, newnode);
 		_size = _size + 1;
 	};
-	var dequeue = function(){
-		var top = _top;
-		var result = top;
-		var ranks = [];
-		var roots = [];
-		var i = 0;
-		var l = 0;
-		var curr = null;
-		var other = null;
-		var min = null;
-		var max = null;
+	const dequeue = function(){
+		let top = _top;
+		const result = top;
+		const ranks = [];
+		const roots = [];
+		let curr = null;
+		let other = null;
+		let min = null;
+		let max = null;
 
 		if(_size){
 			_size = _size - 1;
@@ -77,7 +74,7 @@ function fibonacci_heap(){
 			} while(curr !== top);
 			
 			ranks.length = 45; // 45 derived from https://github.com/w01fe/fibonacci-heap/blob/master/src/jvm/w01fe/fibonacci_heap/FibonacciHeap.java
-			for(i = 0, l = roots.length; i < l; i++){
+			for(let i = 0, l = roots.length; i < l; i++){
 				curr = roots[i];
 				while(true){
 					if(ranks[curr.rank] === undefined){
@@ -118,10 +115,10 @@ function fibonacci_heap(){
 			return (void 0);
 		}
 	};
-	var top = function(){
+	const top = function(){
 		return _top.v;
 	};
-	var size = function(){
+	const size = function(){
 		return _size;
 	};
 	
