@@ -1,14 +1,15 @@
-/* Binomial Heap
- * Copyright 2017 330k
+/**
+ * Binomial Heap
+ * Copyright 2015-2022 330k
  * https://github.com/330k/
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 function binomial_heap(){
+  "use strict";
   let _root = null;
   let _size = 0;
-  
   const _merge = function(i, j){
     if(i === null) return j;
     if(j === null) return i;
@@ -51,7 +52,7 @@ function binomial_heap(){
   };
   
   return {
-    name: 'Binamial Heap',
+    name: 'Binomial Heap',
     enqueue: enqueue,
     dequeue: dequeue,
     top: top,

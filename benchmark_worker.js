@@ -83,6 +83,7 @@ onmessage = function(e) {
 };
 importScripts('mt.js');
 importScripts('binary_heap.js');
+importScripts('binomial_heap.js');
 importScripts('d_ary_heap.js');
 importScripts('fibonacci_heap.js');
 importScripts('leftist_heap.js');
